@@ -10,6 +10,5 @@ export const Layout = styled.div`
 export const Container = styled.div`
     margin: 0 auto;
     padding: 0 20px;
-    max-width: 1600px;
     min-height: 100%;
 `;

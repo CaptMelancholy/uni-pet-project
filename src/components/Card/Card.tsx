@@ -1,39 +1,43 @@
-import React from 'react';
-import * as S from './styles';
-import { useTheme } from 'styled-components';
+import * as S from './Card.styles';
 import { FaClock, FaRegCalendar } from 'react-icons/fa';
+import { ICard } from './Card.types';
+import { ReactNode } from 'react';
 
-export default function Card() {
-  const theme = useTheme();
+interface IProps {
+  card: ICard
+}
 
+export default function Card({ card }: IProps) {
   return (
     <S.Wrapper>
       <S.CardContainer>
         <S.CardBadgeContainer>
-          <S.CardBadge color={theme.colors.red}>
-            <S.CardBadgeText color={theme.colors.red}>
-              DEADLINE IS HERE!
-            </S.CardBadgeText>
-          </S.CardBadge>
-          <S.CardBadge color={theme.colors.cyan}>
-            <S.CardBadgeText color={theme.colors.cyan}>
-              DEADLINE IS HERE!
-            </S.CardBadgeText>
-          </S.CardBadge>
+          {card.badges.length !== 0 &&
+            card.badges.map(({ color, text }): ReactNode => {
+              return (
+                <S.CardBadge color={color}>
+                  <S.CardBadgeText>{text}</S.CardBadgeText>
+                </S.CardBadge>
+              );
+            })}
         </S.CardBadgeContainer>
-        <S.CardTitle>Something</S.CardTitle>
-        <S.CardDescription>One more something</S.CardDescription>
+        <S.CardTitle>{card.title}</S.CardTitle>
+        {card.desc && <S.CardDescription>{card.desc}</S.CardDescription>}
         <S.CardFooter>
-          <S.DateTimeContainer color={theme.colors.deadline_background}>
-            <S.DateTimeTextContainer color={theme.colors.red_text_deadline}>
-              <FaRegCalendar />
-              Jan 29th, 2022
-            </S.DateTimeTextContainer>
-            <S.DateTimeTextContainer color={theme.colors.red_text_deadline}>
-              <FaClock />
-              00:00
-            </S.DateTimeTextContainer>
-          </S.DateTimeContainer>
+          {card.deadlineInfo && (
+            <S.DateTimeContainer status={card.deadlineInfo.status}>
+              <S.DateTimeTextContainer>
+                <FaRegCalendar />
+                {card.deadlineInfo.deadline_date}
+              </S.DateTimeTextContainer>
+              {card.deadlineInfo.deadline_time && (
+                <S.DateTimeTextContainer>
+                  <FaClock />
+                  {card.deadlineInfo.deadline_time}
+                </S.DateTimeTextContainer>
+              )}
+            </S.DateTimeContainer>
+          )}
         </S.CardFooter>
       </S.CardContainer>
     </S.Wrapper>

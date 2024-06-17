@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { EStatuses } from './Card.types';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -12,9 +13,6 @@ export const CardContainer = styled.div`
   padding: 5px 10px;
   background-color: ${({ theme }) => theme.colors.primary};
   gap: 5px;
-  box-shadow: 1px 9px 18px 0px rgba(0, 0, 0, 0.51);
-  -webkit-box-shadow: 1px 9px 18px 0px rgba(0, 0, 0, 0.51);
-  -moz-box-shadow: 1px 9px 18px 0px rgba(0, 0, 0, 0.51);
   border-radius: 10px;
 `;
 
@@ -37,20 +35,20 @@ export const CardBadge = styled.div`
 
 export const CardBadgeText = styled.p`
   font-weight: 600;
-  font-size: 12px;
+  font-size: 8px;
   text-transform: uppercase;
   color: black;
 `;
 
 export const CardTitle = styled.p`
   font-weight: 400;
-  font-size: 16px;
+  font-size: 18px;
   color: ${({ theme }) => theme.colors.text};
 `;
 
 export const CardDescription = styled.p`
   font-weight: 100;
-  font-size: 13px;
+  font-size: 14px;
   color: ${({ theme }) => theme.colors.text};
 `;
 
@@ -61,12 +59,42 @@ export const CardFooter = styled.div`
   align-items: center;
 `;
 
-export const DateTimeContainer = styled.div`
+export const DateTimeContainer = styled.div<{ status: EStatuses }>`
   display: flex;
   padding: 2px 5px;
   gap: 5px;
-  background-color: ${(props) =>
-    props.color || props.theme.colors.in_progress_background};
+  background-color: ${(props) => {
+    switch(props.status) {
+      case EStatuses.Completed: {
+        return props.theme.colors.comp_background;
+      }
+      case EStatuses.InProgress: {
+        return props.theme.colors.in_progress_background;
+      }
+      case EStatuses.Deadline: {
+        return props.theme.colors.deadline_background;
+      }
+      default: {
+        return props.theme.colors.in_progress_background;
+      }
+    }
+  }};
+  color: ${(props) => {
+    switch(props.status) {
+      case EStatuses.Completed: {
+        return props.theme.colors.comp_text;
+      }
+      case EStatuses.InProgress: {
+        return props.theme.colors.in_progress_text;
+      }
+      case EStatuses.Deadline: {
+        return props.theme.colors.red_text_deadline;
+      }
+      default: {
+        return props.theme.colors.in_progress_text;
+      }
+    }
+  }};
   font-weight: 700;
   font-size: 10px;
   border-radius: 5px;
@@ -76,7 +104,6 @@ export const DateTimeTextContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
-  color: ${(props) => props.color || props.theme.colors.in_progress_text};
 `;
 
 export const CardAvatarAttachment = styled.div``;
