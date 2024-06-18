@@ -6,6 +6,8 @@ export const Wrapper = styled.div`
   flex-direction: column;
 `;
 
+Wrapper.displayName = 'Wrapper'
+
 export const CardContainer = styled.div`
   display: flex;
   justify-content: space-around;
@@ -16,12 +18,16 @@ export const CardContainer = styled.div`
   border-radius: 10px;
 `;
 
+CardContainer.displayName = "CardContainer"
+
 export const CardBadgeContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   gap: 3px;
 `;
+
+CardBadgeContainer.displayName = "CardBadgeContainer"
 
 export const CardBadge = styled.div`
   background-color: ${(props) => props.color || props.theme.colors.grey};
@@ -33,6 +39,8 @@ export const CardBadge = styled.div`
   border-radius: 5px;
 `;
 
+CardBadge.displayName = "CardBadge"
+
 export const CardBadgeText = styled.p`
   font-weight: 600;
   font-size: 8px;
@@ -40,11 +48,15 @@ export const CardBadgeText = styled.p`
   color: black;
 `;
 
+CardBadgeText.displayName = "CardBadgeText"
+
 export const CardTitle = styled.p`
   font-weight: 400;
   font-size: 18px;
   color: ${({ theme }) => theme.colors.text};
 `;
+
+CardTitle.displayName = "CardTitle"
 
 export const CardDescription = styled.p`
   font-weight: 100;
@@ -52,12 +64,16 @@ export const CardDescription = styled.p`
   color: ${({ theme }) => theme.colors.text};
 `;
 
+CardDescription.displayName = "CardDescription"
+
 export const CardFooter = styled.div`
   display: flex;
   // justify-content: space-around;
   flex-direction: row;
   align-items: center;
 `;
+
+CardFooter.displayName = "CardFooter"
 
 export const DateTimeContainer = styled.div<{ status: EStatuses }>`
   display: flex;
@@ -100,10 +116,14 @@ export const DateTimeContainer = styled.div<{ status: EStatuses }>`
   border-radius: 5px;
 `;
 
+DateTimeContainer.displayName = "DateTimeContainer"
+
 export const DateTimeTextContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
 `;
+
+DateTimeTextContainer.displayName = "DateTimeTextContainer"
 
 export const CardAvatarAttachment = styled.div``;

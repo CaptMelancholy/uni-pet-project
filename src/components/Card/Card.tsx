@@ -15,23 +15,23 @@ export default function Card({ card }: IProps) {
           {card.badges.length !== 0 &&
             card.badges.map(({ color, text }): ReactNode => {
               return (
-                <S.CardBadge color={color}>
+                <S.CardBadge color={color} role='badge'>
                   <S.CardBadgeText>{text}</S.CardBadgeText>
                 </S.CardBadge>
               );
             })}
         </S.CardBadgeContainer>
-        <S.CardTitle>{card.title}</S.CardTitle>
-        {card.desc && <S.CardDescription>{card.desc}</S.CardDescription>}
-        <S.CardFooter>
+        <S.CardTitle role='title'>{card.title}</S.CardTitle>
+        {card.desc && <S.CardDescription role='desc'>{card.desc}</S.CardDescription>}
+        <S.CardFooter role='footer-of-card'>
           {card.deadlineInfo && (
-            <S.DateTimeContainer status={card.deadlineInfo.status}>
-              <S.DateTimeTextContainer>
+            <S.DateTimeContainer role='date-time-container' status={card.deadlineInfo.status}>
+              <S.DateTimeTextContainer role='date-container'>
                 <FaRegCalendar />
                 {card.deadlineInfo.deadline_date}
               </S.DateTimeTextContainer>
               {card.deadlineInfo.deadline_time && (
-                <S.DateTimeTextContainer>
+                <S.DateTimeTextContainer role='time-container'>
                   <FaClock />
                   {card.deadlineInfo.deadline_time}
                 </S.DateTimeTextContainer>
