@@ -8,17 +8,17 @@ interface IProps {
 
 export default function Category({ category }: IProps) {
   return (
-    <S.CategoryContainer>
-      <S.CategoryTitle>{category.title}</S.CategoryTitle>
-      <S.CardsContainer>
-        {category.cards.length !== 0 &&
-          category.cards.map((card) => (
-            <Card
-              key={card.id}
-              card={card}
-            />
-          ))}
-      </S.CardsContainer>
-    </S.CategoryContainer>
+      <S.CategoryContainer>
+        <S.CategoryTitle>{category.title}</S.CategoryTitle>
+        <S.CardsList>
+          {category.cards.length !== 0 &&
+            category.cards.map((card) => (
+              <Card
+                key={card.id}
+                card={card}
+              />
+            ))}
+        </S.CardsList>
+      </S.CategoryContainer>
   );
 }

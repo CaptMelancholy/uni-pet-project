@@ -1,4 +1,4 @@
-import * as S from './CategoryList.styles';
+import * as S from './Board.styles';
 import { ICategory } from '../Category/Category.types';
 import Category from '../Category/Category';
 
@@ -8,9 +8,14 @@ interface IProps {
 
 export default function CategoryList({ categories }: IProps) {
   return (
-    <S.CategoryListContainer>
+    <S.BoardContainer>
       {categories.length !== 0 &&
-        categories.map((category) => <Category key={category.id} category={category} />)}
-    </S.CategoryListContainer>
+        categories.map((category) => (
+          <Category
+            key={category.id}
+            category={category}
+          />
+        ))}
+    </S.BoardContainer>
   );
 }

@@ -8,6 +8,7 @@ export const CardContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.primary};
   gap: 5px;
   border-radius: 10px;
+  flex: 0 0 auto;
 `;
 
 CardContainer.displayName = "CardContainer"

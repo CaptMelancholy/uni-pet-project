@@ -1,15 +1,14 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
 
 export const CategoryContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.secondary};
   border-radius: 2px;
   padding: 10px;
-  width: 425px;
+  min-width: 425px;
+  display: flex;
+  flex-direction: column;
+  flex: 0 1;
 `;
 
 export const CategoryTitle = styled.h3`
@@ -19,13 +18,12 @@ export const CategoryTitle = styled.h3`
   margin-bottom: 10px;
 `;
 
-export const CardsContainer = styled.div`
+export const CardsList = styled.div`
   display: flex;
-  flex: 1 1 auto;
   flex-direction: column;
-  height: 100%;
+  gap: 5px;
+  flex: 1 1 auto;
+  min-height: 0;
   overflow-y: auto;
-  row-gap: 8px;
   scrollbar-width: thin;
-  max-height: 100%;
 `;

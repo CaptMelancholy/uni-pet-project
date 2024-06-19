@@ -28,16 +28,17 @@ export default createGlobalStyle`
         -moz-osx-font-smoothing: grayscale;
 
         --primary-family: "Poppins", sans-serif;
-        max-height: 100vh;
     }
 
     #root {
-        max-height: 100vh;
+        display: flex;
+        width: 100vw;
+        height: 100vh;
+        flex-direction: column;
     }
 
     body {
         margin: 0;
-        max-height: 100vh;
     }
 
     a {

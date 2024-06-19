@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import CategoryList from '../components/CategoryList/CategoryList'
+import CategoryList from '../components/Board/Board'
 import Template from '../components/Template/Template'
 import { categoriesSelector } from '../store/slices/categories/categories.selectors'
 
