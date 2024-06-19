@@ -39,7 +39,7 @@ export const CategoryData: Array<ICategory> = [
         ],
       },
       {
-          id: 0,
+          id: 1,
           parent_id: 0,
           title: 'Something here',
           desc: 'Something more',
@@ -50,21 +50,21 @@ export const CategoryData: Array<ICategory> = [
           badges: []
       },
       {
-          id: 0,
+          id: 2,
           parent_id: 0,
           title: 'Something here',
           desc: 'Something more',
           badges: []
       },
       {
-          id: 0,
+          id: 3,
           parent_id: 0,
           title: 'Something here',
           desc: 'Something more',
           badges: []
       },
       {
-          id: 0,
+          id: 4,
           parent_id: 0,
           title: 'Something here',
           desc: 'Something more',
@@ -76,7 +76,7 @@ export const CategoryData: Array<ICategory> = [
           badges: []
       },
       {
-          id: 0,
+          id: 5,
           parent_id: 0,
           title: 'Something here',
           desc: 'Something more',
@@ -87,14 +87,14 @@ export const CategoryData: Array<ICategory> = [
           badges: []
       },
       {
-          id: 0,
+          id: 6,
           parent_id: 0,
           title: 'Something here',
           desc: 'Something more',
           badges: []
       },
       {
-          id: 0,
+          id: 7,
           parent_id: 0,
           title: 'Something here',
           desc: 'Something more',
@@ -107,8 +107,8 @@ export const CategoryData: Array<ICategory> = [
     title: 'New hello world',
     cards: [
       {
-        id: 0,
-        parent_id: 0,
+        id: 8,
+        parent_id: 1,
         title: 'Something here',
         desc: 'Something more',
         badges: [
@@ -127,65 +127,37 @@ export const CategoryData: Array<ICategory> = [
         ],
       },
       {
-          id: 0,
-          parent_id: 0,
+          id: 9,
+          parent_id: 1,
           title: 'Something here',
           desc: 'Something more',
           deadlineInfo: {
               deadline_date: getRandomFutureDate(),
-              status: EStatuses.Completed,
+              status: EStatuses.Deadline,
           },
           badges: []
       },
       {
-          id: 0,
-          parent_id: 0,
-          title: 'Something here',
-          desc: 'Something more',
-          badges: []
-      },
-      {
-          id: 0,
-          parent_id: 0,
-          title: 'Something here',
-          desc: 'Something more',
-          badges: []
-      },
-      {
-          id: 0,
-          parent_id: 0,
+          id: 10,
+          parent_id: 1,
           title: 'Something here',
           desc: 'Something more',
           deadlineInfo: {
               deadline_date: getRandomFutureDate(),
               deadline_time: getRandomTime(),
-              status: EStatuses.Completed,
+              status: EStatuses.InProgress,
           },
           badges: []
       },
       {
-          id: 0,
-          parent_id: 0,
+          id: 11,
+          parent_id: 1,
           title: 'Something here',
           desc: 'Something more',
           deadlineInfo: {
               deadline_date: getRandomFutureDate(),
               status: EStatuses.InProgress,
           },
-          badges: []
-      },
-      {
-          id: 0,
-          parent_id: 0,
-          title: 'Something here',
-          desc: 'Something more',
-          badges: []
-      },
-      {
-          id: 0,
-          parent_id: 0,
-          title: 'Something here',
-          desc: 'Something more',
           badges: []
       },
     ],
@@ -195,8 +167,8 @@ export const CategoryData: Array<ICategory> = [
     title: 'Again hello world?',
     cards: [
       {
-        id: 0,
-        parent_id: 0,
+        id: 12,
+        parent_id: 2,
         title: 'Something here',
         desc: 'Something more',
         badges: [
@@ -215,8 +187,8 @@ export const CategoryData: Array<ICategory> = [
         ],
       },
       {
-          id: 0,
-          parent_id: 0,
+          id: 13,
+          parent_id: 2,
           title: 'Something here',
           desc: 'Something more',
           deadlineInfo: {
@@ -226,22 +198,22 @@ export const CategoryData: Array<ICategory> = [
           badges: []
       },
       {
-          id: 0,
-          parent_id: 0,
+          id: 14,
+          parent_id: 2,
           title: 'Something here',
           desc: 'Something more',
           badges: []
       },
       {
-          id: 0,
-          parent_id: 0,
+          id: 15,
+          parent_id: 2,
           title: 'Something here',
           desc: 'Something more',
           badges: []
       },
       {
-          id: 0,
-          parent_id: 0,
+          id: 16,
+          parent_id: 2,
           title: 'Something here',
           desc: 'Something more',
           deadlineInfo: {
@@ -252,8 +224,8 @@ export const CategoryData: Array<ICategory> = [
           badges: []
       },
       {
-          id: 0,
-          parent_id: 0,
+          id: 17,
+          parent_id: 2,
           title: 'Something here',
           desc: 'Something more',
           deadlineInfo: {
@@ -263,15 +235,15 @@ export const CategoryData: Array<ICategory> = [
           badges: []
       },
       {
-          id: 0,
-          parent_id: 0,
+          id: 18,
+          parent_id: 2,
           title: 'Something here',
           desc: 'Something more',
           badges: []
       },
       {
-          id: 0,
-          parent_id: 0,
+          id: 19,
+          parent_id: 2,
           title: 'Something here',
           desc: 'Something more',
           badges: []
@@ -283,8 +255,8 @@ export const CategoryData: Array<ICategory> = [
     title: 'No',
     cards: [
       {
-        id: 0,
-        parent_id: 0,
+        id: 20,
+        parent_id: 3,
         title: 'Something here',
         desc: 'Something more',
         badges: [
@@ -301,68 +273,6 @@ export const CategoryData: Array<ICategory> = [
             text: 'something',
           },
         ],
-      },
-      {
-          id: 0,
-          parent_id: 0,
-          title: 'Something here',
-          desc: 'Something more',
-          deadlineInfo: {
-              deadline_date: getRandomFutureDate(),
-              status: EStatuses.Completed,
-          },
-          badges: []
-      },
-      {
-          id: 0,
-          parent_id: 0,
-          title: 'Something here',
-          desc: 'Something more',
-          badges: []
-      },
-      {
-          id: 0,
-          parent_id: 0,
-          title: 'Something here',
-          desc: 'Something more',
-          badges: []
-      },
-      {
-          id: 0,
-          parent_id: 0,
-          title: 'Something here',
-          desc: 'Something more',
-          deadlineInfo: {
-              deadline_date: getRandomFutureDate(),
-              deadline_time: getRandomTime(),
-              status: EStatuses.Completed,
-          },
-          badges: []
-      },
-      {
-          id: 0,
-          parent_id: 0,
-          title: 'Something here',
-          desc: 'Something more',
-          deadlineInfo: {
-              deadline_date: getRandomFutureDate(),
-              status: EStatuses.InProgress,
-          },
-          badges: []
-      },
-      {
-          id: 0,
-          parent_id: 0,
-          title: 'Something here',
-          desc: 'Something more',
-          badges: []
-      },
-      {
-          id: 0,
-          parent_id: 0,
-          title: 'Something here',
-          desc: 'Something more',
-          badges: []
       },
     ],
     id: 3,
@@ -371,8 +281,8 @@ export const CategoryData: Array<ICategory> = [
     title: 'No',
     cards: [
       {
-        id: 0,
-        parent_id: 0,
+        id: 21,
+        parent_id: 4,
         title: 'Something here',
         desc: 'Something more',
         badges: [
@@ -391,8 +301,8 @@ export const CategoryData: Array<ICategory> = [
         ],
       },
       {
-          id: 0,
-          parent_id: 0,
+          id: 22,
+          parent_id: 4,
           title: 'Something here',
           desc: 'Something more',
           deadlineInfo: {
@@ -402,22 +312,22 @@ export const CategoryData: Array<ICategory> = [
           badges: []
       },
       {
-          id: 0,
-          parent_id: 0,
+          id: 23,
+          parent_id: 4,
           title: 'Something here',
           desc: 'Something more',
           badges: []
       },
       {
-          id: 0,
-          parent_id: 0,
+          id: 24,
+          parent_id: 4,
           title: 'Something here',
           desc: 'Something more',
           badges: []
       },
       {
-          id: 0,
-          parent_id: 0,
+          id: 25,
+          parent_id: 4,
           title: 'Something here',
           desc: 'Something more',
           deadlineInfo: {
@@ -428,8 +338,8 @@ export const CategoryData: Array<ICategory> = [
           badges: []
       },
       {
-          id: 0,
-          parent_id: 0,
+          id: 26,
+          parent_id: 4,
           title: 'Something here',
           desc: 'Something more',
           deadlineInfo: {
@@ -439,15 +349,15 @@ export const CategoryData: Array<ICategory> = [
           badges: []
       },
       {
-          id: 0,
-          parent_id: 0,
+          id: 27,
+          parent_id: 4,
           title: 'Something here',
           desc: 'Something more',
           badges: []
       },
       {
-          id: 0,
-          parent_id: 0,
+          id: 28,
+          parent_id: 4,
           title: 'Something here',
           desc: 'Something more',
           badges: []

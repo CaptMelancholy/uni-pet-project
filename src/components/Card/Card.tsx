@@ -1,7 +1,6 @@
 import * as S from './Card.styles';
 import { FaClock, FaRegCalendar } from 'react-icons/fa';
 import { ICard } from './Card.types';
-import { ReactNode } from 'react';
 
 interface IProps {
   card: ICard
@@ -9,13 +8,13 @@ interface IProps {
 
 export default function Card({ card }: IProps) {
   return (
-    <S.Wrapper>
+ 
       <S.CardContainer>
         <S.CardBadgeContainer>
           {card.badges.length !== 0 &&
-            card.badges.map(({ color, text }): ReactNode => {
+            card.badges.map(({ color, text }, index) => {
               return (
-                <S.CardBadge color={color} role='badge'>
+                <S.CardBadge key={index} color={color} role='badge'>
                   <S.CardBadgeText>{text}</S.CardBadgeText>
                 </S.CardBadge>
               );
@@ -25,7 +24,7 @@ export default function Card({ card }: IProps) {
         {card.desc && <S.CardDescription role='desc'>{card.desc}</S.CardDescription>}
         <S.CardFooter role='footer-of-card'>
           {card.deadlineInfo && (
-            <S.DateTimeContainer role='date-time-container' status={card.deadlineInfo.status}>
+            <S.DateTimeContainer role='date-time-container' $status={card.deadlineInfo.status}>
               <S.DateTimeTextContainer role='date-container'>
                 <FaRegCalendar />
                 {card.deadlineInfo.deadline_date}
@@ -40,6 +39,5 @@ export default function Card({ card }: IProps) {
           )}
         </S.CardFooter>
       </S.CardContainer>
-    </S.Wrapper>
   );
 }

@@ -1,16 +1,8 @@
 import styled from 'styled-components';
 import { EStatuses } from './Card.types';
 
-export const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-Wrapper.displayName = 'Wrapper'
-
 export const CardContainer = styled.div`
   display: flex;
-  justify-content: space-around;
   flex-direction: column;
   padding: 5px 10px;
   background-color: ${({ theme }) => theme.colors.primary};
@@ -75,12 +67,12 @@ export const CardFooter = styled.div`
 
 CardFooter.displayName = "CardFooter"
 
-export const DateTimeContainer = styled.div<{ status: EStatuses }>`
+export const DateTimeContainer = styled.div<{ $status: EStatuses }>`
   display: flex;
   padding: 2px 5px;
   gap: 5px;
   background-color: ${(props) => {
-    switch(props.status) {
+    switch(props.$status) {
       case EStatuses.Completed: {
         return props.theme.colors.comp_background;
       }
@@ -96,7 +88,7 @@ export const DateTimeContainer = styled.div<{ status: EStatuses }>`
     }
   }};
   color: ${(props) => {
-    switch(props.status) {
+    switch(props.$status) {
       case EStatuses.Completed: {
         return props.theme.colors.comp_text;
       }
@@ -124,6 +116,4 @@ export const DateTimeTextContainer = styled.div`
   gap: 5px;
 `;
 
-DateTimeTextContainer.displayName = "DateTimeTextContainer"
-
-export const CardAvatarAttachment = styled.div``;
+DateTimeTextContainer.displayName = "DateTimeTextContainer";
