@@ -6,9 +6,9 @@ interface IProps {
   categories: Array<ICategory>;
 }
 
-export default function CategoryList({ categories }: IProps) {
+export default function Board({ categories }: IProps) {
   return (
-    <S.BoardContainer>
+    <S.BoardContainer data-testid='board'>
       {categories.length !== 0 &&
         categories.map((category) => (
           <Category

@@ -10,7 +10,7 @@ export default function Category({ category }: IProps) {
   return (
       <S.CategoryContainer>
         <S.CategoryTitle>{category.title}</S.CategoryTitle>
-        <S.CardsList>
+        <S.CardsList data-testid="cards-list">
           {category.cards.length !== 0 &&
             category.cards.map((card) => (
               <Card
