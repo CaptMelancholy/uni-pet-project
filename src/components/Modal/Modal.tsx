@@ -1,9 +1,10 @@
 import { useDispatch } from 'react-redux';
 import { setScreenStatus } from '../../store/slices/screen/screen.slice';
 
-import * as S from './Modal.style';
-import { FaX } from 'react-icons/fa6';
+import * as S from './Modal.styles';
 import { ReactNode } from 'react';
+import IconButton from '../IconButtons/IconButton';
+import { EType } from '../IconButtons/IconButton.types';
 
 interface IProps {
   showModal: boolean;
@@ -21,10 +22,14 @@ export default function Modal({ showModal, setShowModal, children }: IProps) {
   return (
     showModal && (
       <S.ModalContainer>
-        <S.ModalNavigation role='button' onClick={() => clickOnClose()}>
-          <FaX />
+        <S.ModalNavigation>
+          <IconButton
+            $size={16}
+            onActionDoNext={clickOnClose}
+            buttonType={EType.close}
+          />
         </S.ModalNavigation>
-        <S.ModalContentContainer>{children}</S.ModalContentContainer>
+        {children}
       </S.ModalContainer>
     )
   );

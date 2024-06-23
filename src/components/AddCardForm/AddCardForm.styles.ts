@@ -20,3 +20,9 @@ export const InputContainer = styled.div`
 export const FormText = styled(Text)`
   color: ${({ theme }) => theme.colors.secondary};
 `;
+
+export const InfoContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;

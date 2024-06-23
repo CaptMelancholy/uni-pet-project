@@ -31,3 +31,9 @@ export const FormInput = styled(InputTitle)`
 export const FormText = styled(Text)`
   color: ${({ theme }) => theme.colors.primary};
 `;
+
+export const InfoContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;

@@ -1,5 +1,12 @@
 import styled from 'styled-components';
 
+export const ModalForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+`;
+
 export const ModalCardTitleInfo = styled.div`
   display: flex;
   gap: 10px;
@@ -14,6 +21,13 @@ export const DescContainer = styled.div`
 
 export const DataContainer = styled.div`
   display: flex;
+  gap: 10px;
+  flex-direction: column;
+`;
+
+export const InputDateTimeContainer = styled.div`
+  display: flex;
+  flex-direction: row;
   gap: 10px;
 `;
 

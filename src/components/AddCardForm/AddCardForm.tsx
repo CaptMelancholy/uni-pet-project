@@ -6,6 +6,8 @@ import { INewCard } from '../../store/slices/categories/categories.types';
 import { useDispatch, useSelector } from 'react-redux';
 import { maxCardIdCategoriesSelector } from '../../store/slices/categories/categories.selectors';
 import { pushNewCard } from '../../store/slices/categories/categories.slice';
+import IconButton from '../IconButtons/IconButton';
+import { EType } from '../IconButtons/IconButton.types';
 
 interface ICardInput {
   title: string;
@@ -26,12 +28,17 @@ export default function AddCardForm({ categoryId, setShowAddingCard }: IProps) {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm<ICardInput>();
 
   const submitOptions = {
     title: {
       required: 'Title is required',
+      validate: {
+        trapSpacesForRequiredFields: (v: string) =>
+          !!v.trim() || 'White spaces not acceptable',
+      },
     },
     time: {
       validate: {
@@ -42,6 +49,20 @@ export default function AddCardForm({ categoryId, setShowAddingCard }: IProps) {
         },
       },
     },
+    desc: {
+      validate: {
+        trapSpacesForRequiredFields: (v: string) => {
+          if (v !== '') {
+            return !!v.trim() || 'White spaces not acceptable';
+          }
+        },
+      },
+    },
+  };
+
+  const handleOnClose = () => {
+    reset();
+    setShowAddingCard(false);
   };
 
   const handleAddCardSubmit = (data: ICardInput) => {
@@ -89,12 +110,19 @@ export default function AddCardForm({ categoryId, setShowAddingCard }: IProps) {
 
   return (
     <S.AddCardForm onSubmit={handleSubmit(handleAddCardSubmit)}>
-      <S.FormText
-        $weight={700}
-        $size={16}
-      >
-        Add card
-      </S.FormText>
+      <S.InfoContainer>
+        <S.FormText
+          $weight={700}
+          $size={16}
+        >
+          Add card
+        </S.FormText>
+        <IconButton
+          $size={14}
+          onActionDoNext={handleOnClose}
+          buttonType={EType.close}
+        />
+      </S.InfoContainer>
       <S.InputContainer>
         <S.FormText
           $weight={400}
@@ -119,8 +147,9 @@ export default function AddCardForm({ categoryId, setShowAddingCard }: IProps) {
         <C.InputTitle
           $size={12}
           placeholder='Enter desc...'
-          {...register('desc')}
+          {...register('desc', submitOptions.desc)}
         />
+        {errors.desc && <C.Error>{errors.desc.message}</C.Error>}
       </S.InputContainer>
       <S.InputContainer>
         <S.FormText
