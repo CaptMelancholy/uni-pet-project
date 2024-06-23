@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Button } from '../../styles/components';
 
 
 export const CategoryContainer = styled.div`
@@ -27,3 +28,8 @@ export const CardsList = styled.div`
   overflow-y: auto;
   scrollbar-width: thin;
 `;
+
+export const AddCardButton = styled(Button)`
+  margin-top: 20px;
+  min-width: 100% !important;
+`

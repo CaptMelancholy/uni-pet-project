@@ -13,17 +13,29 @@ interface IProps {
   setShowModal: (flag: boolean) => void;
   card: ICard;
 }
+
+interface ICardInput {
+  title: string;
+  desc: string;
+  date: string;
+  time: string;
+}
+
 export default function ModalCard({ showModal, setShowModal, card }: IProps) {
   const board = useSelector(categoriesSelector);
   const [title, setTitle] = useState<string>('');
-  const [time, setTime] = useState<boolean>(card.deadlineInfo?.deadline_time ? false : true);
-  const [date, setDate] = useState<boolean>(card.deadlineInfo?.deadline_date ? false : true);
+  const [time, setTime] = useState<boolean>(
+    card.deadlineInfo?.deadline_time ? false : true,
+  );
+  const [date, setDate] = useState<boolean>(
+    card.deadlineInfo?.deadline_date ? false : true,
+  );
   const onClickTime = () => {
     setTime(!time);
-  }
+  };
   const onClickDate = () => {
     setDate(!date);
-  }
+  };
   console.log(card.deadlineInfo?.deadline_date ? true : false);
   useEffect(() => {
     setTitle(CardsUtils.findByParentIdCategory(board, card.parent_id));
@@ -66,10 +78,26 @@ export default function ModalCard({ showModal, setShowModal, card }: IProps) {
         />
       </S.DescContainer>
       <S.DataContainer>
-        <input type='checkbox' checked={!date} onClick={onClickDate} />
-        <input type='date' disabled={date} defaultValue={card.deadlineInfo?.deadline_date} />
-        <input type='checkbox' checked={!time} onClick={onClickTime} />
-        <input type='time' disabled={time} defaultValue={card.deadlineInfo?.deadline_time} />
+        <input
+          type='checkbox'
+          checked={!date}
+          onClick={onClickDate}
+        />
+        <input
+          type='date'
+          disabled={date}
+          defaultValue={card.deadlineInfo?.deadline_date}
+        />
+        <input
+          type='checkbox'
+          checked={!time}
+          onClick={onClickTime}
+        />
+        <input
+          type='time'
+          disabled={time}
+          defaultValue={card.deadlineInfo?.deadline_time}
+        />
       </S.DataContainer>
     </Modal>
   );
