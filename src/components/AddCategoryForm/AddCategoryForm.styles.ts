@@ -10,6 +10,8 @@ export const AddCategoryContainer = styled.form`
   flex-direction: column;
   flex: 0 1;
   gap: 20px;
+  max-height: 100%;
+  align-self: flex-start;
 `;
 
 export const InputContainer = styled.div`
