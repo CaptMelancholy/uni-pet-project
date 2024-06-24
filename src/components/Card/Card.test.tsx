@@ -32,7 +32,7 @@ describe('Card tests', () => {
 
     render(
       <ThemeProvider theme={lightTheme}>
-        <Card card={cardTestingObject} />
+        <Card index={0} card={cardTestingObject} />
       </ThemeProvider>,
     );
 
@@ -67,7 +67,7 @@ describe('Card tests', () => {
 
     render(
       <ThemeProvider theme={lightTheme}>
-        <Card card={cardTestingObject} />
+        <Card index={0} card={cardTestingObject} />
       </ThemeProvider>,
     );
     expect(screen.queryByTestId('desc')).toBeNull();
@@ -92,7 +92,7 @@ describe('Card tests', () => {
 
     render(
       <ThemeProvider theme={lightTheme}>
-        <Card card={cardTestingObject} />
+        <Card index={0} card={cardTestingObject} />
       </ThemeProvider>,
     );
     expect(screen.getByTestId('date-time-container')).toBeInTheDocument();
@@ -121,7 +121,7 @@ describe('Card tests', () => {
 
       render(
         <ThemeProvider theme={lightTheme}>
-          <Card card={cardTestingObject} />
+          <Card index={0} card={cardTestingObject} />
         </ThemeProvider>,
       );
 
@@ -150,7 +150,7 @@ describe('Card tests', () => {
 
     render(
       <ThemeProvider theme={lightTheme}>
-        <Card card={cardTestingObject} />
+        <Card index={0} card={cardTestingObject} />
       </ThemeProvider>,
     );
     expect(screen.getByTestId('date-time-container')).toHaveStyle(
@@ -179,7 +179,7 @@ describe('Card tests', () => {
     };
     render(
       <ThemeProvider theme={lightTheme}>
-        <Card card={cardTestingObject} />
+        <Card index={0} card={cardTestingObject} />
       </ThemeProvider>,
     );
     expect(screen.getByTestId('date-time-container')).toHaveStyle(
@@ -208,7 +208,7 @@ describe('Card tests', () => {
     };
     render(
       <ThemeProvider theme={lightTheme}>
-        <Card card={cardTestingObject} />
+        <Card index={0} card={cardTestingObject} />
       </ThemeProvider>,
     );
     expect(screen.getByTestId('date-time-container')).toHaveStyle(
@@ -231,7 +231,7 @@ describe('Card tests', () => {
     };
     render(
       <ThemeProvider theme={lightTheme}>
-        <Card card={cardTestingObject} />
+        <Card index={0} card={cardTestingObject} />
       </ThemeProvider>,
     );
     expect(screen.queryByTestId('date-time-container')).toBeNull();
