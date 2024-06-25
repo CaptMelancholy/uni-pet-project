@@ -1,19 +1,18 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import ESliceNames from './store.types';
 import { useDispatch } from 'react-redux';
-import categoriesReducer from './slices/categories/categories.slice'
-import screenReducer from './slices/screen/screen.slice'
-
-
+import boardsReducer from './slices/categories/boards.slice';
+import screenReducer from './slices/screen/screen.slice';
 
 const rootReducer = combineReducers({
-    [ESliceNames.CATEGORIES_SLICE_NAME]: categoriesReducer,
-    [ESliceNames.BACKGROUND_SCREEN_SLICE_NAME]: screenReducer,
+  [ESliceNames.BOARDS_SLICE_NAME]: boardsReducer,
+  [ESliceNames.BACKGROUND_SCREEN_SLICE_NAME]: screenReducer,
 });
 
-const setupStore = () => configureStore({
+const setupStore = () =>
+  configureStore({
     reducer: rootReducer,
-});
+  });
 
 const store = setupStore();
 

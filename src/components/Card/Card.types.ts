@@ -1,6 +1,7 @@
 export interface ICard {
   id: number;
-  parent_id: number;
+  categoryId: number;
+  spaceId: number;
   badges: Array<IBadge>;
   title: string;
   desc?: string;

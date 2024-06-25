@@ -1,7 +1,8 @@
 import { ICard } from '../Card/Card.types';
 
 export interface ICategory {
-    id: number;
-    title: string;
-    cards: Array<ICard>;
+  id: number;
+  title: string;
+  spaceId: number;
+  cards: Array<ICard>;
 }

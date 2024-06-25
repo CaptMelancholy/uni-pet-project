@@ -2,7 +2,7 @@ import { screen } from '@testing-library/react';
 import { test } from 'vitest';
 import { ICategory } from './Category.types';
 import Category from './Category';
-import { render } from '../../tests/Render'
+import { render } from '../../tests/Render';
 
 describe('Category tests', () => {
   test('category should be shown with cards', () => {
@@ -12,13 +12,13 @@ describe('Category tests', () => {
       cards: [
         {
           id: 0,
-          parent_id: 0,
+          categoryId: 0,
           badges: [],
           title: 'Card 1',
         },
         {
           id: 1,
-          parent_id: 0,
+          categoryId: 0,
           badges: [],
           title: 'Card 2',
         },

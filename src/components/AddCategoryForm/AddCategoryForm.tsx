@@ -2,9 +2,9 @@ import * as S from './AddCategoryForm.styles';
 import * as C from '../../styles/components';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { maxCategoryIdCategoriesSelector } from '../../store/slices/categories/categories.selectors';
+import { maxCategoryIdBoardsSelector } from '../../store/slices/categories/boards.selectors';
 import { ICategory } from '../Category/Category.types';
-import { pushNewCategory } from '../../store/slices/categories/categories.slice';
+import { pushNewCategory } from '../../store/slices/categories/boards.slice';
 import IconButton from '../IconButtons/IconButton';
 import { EType } from '../IconButtons/IconButton.types';
 
@@ -14,11 +14,15 @@ interface ICategoryInput {
 
 interface IProps {
   setShowAddCategory: (data: boolean) => void;
+  spaceId: number;
 }
 
-export default function AddCategoryForm({ setShowAddCategory }: IProps) {
+export default function AddCategoryForm({
+  setShowAddCategory,
+  spaceId,
+}: IProps) {
   const dispatch = useDispatch();
-  const maxId = useSelector(maxCategoryIdCategoriesSelector);
+  const maxId = useSelector(maxCategoryIdBoardsSelector);
   const {
     register,
     handleSubmit,
@@ -44,6 +48,7 @@ export default function AddCategoryForm({ setShowAddCategory }: IProps) {
   const handleAddSubmit = (data: ICategoryInput) => {
     const newCategory: ICategory = {
       id: maxId + 1,
+      spaceId: spaceId,
       title: data.title,
       cards: [],
     };

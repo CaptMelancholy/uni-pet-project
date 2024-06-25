@@ -38,7 +38,7 @@ export const CardsList = styled.div`
   flex-direction: column;
   gap: 5px;
   flex: 1 1 auto;
-  min-height: 0;
+  min-height: 10px;
   overflow-y: auto;
   scrollbar-width: thin;
 `;

@@ -5,7 +5,7 @@ import * as C from '../../../styles/components';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { setScreenStatus } from '../../../store/slices/screen/screen.slice';
-import { updateCategory } from '../../../store/slices/categories/categories.slice';
+import { updateCategory } from '../../../store/slices/categories/boards.slice';
 
 interface IProps {
   showModal: boolean;
@@ -42,6 +42,7 @@ export default function ModalCategory({
   const handleSaveChanges = (data: ICategoryInput) => {
     const updatedCategory: ICategory = {
       id: category.id,
+      spaceId: category.spaceId,
       title: data.title,
       cards: category.cards,
     };

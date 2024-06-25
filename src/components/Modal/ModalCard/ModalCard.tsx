@@ -4,11 +4,11 @@ import Modal from '../Modal';
 import * as S from './ModalCard.styles';
 import * as C from '../../../styles/components';
 import { useDispatch, useSelector } from 'react-redux';
-import { categoriesSelector } from '../../../store/slices/categories/categories.selectors';
+import { boardsSelector } from '../../../store/slices/categories/boards.selectors';
 import { useEffect, useState } from 'react';
 import CardsUtils from '../../../utils/Cards/CardsUtils';
 import { useForm } from 'react-hook-form';
-import { updateCard } from '../../../store/slices/categories/categories.slice';
+import { updateCard } from '../../../store/slices/categories/boards.slice';
 import { setScreenStatus } from '../../../store/slices/screen/screen.slice';
 
 interface IProps {
@@ -25,7 +25,7 @@ interface ICardInput {
 }
 
 export default function ModalCard({ showModal, setShowModal, card }: IProps) {
-  const board = useSelector(categoriesSelector);
+  const boards = useSelector(boardsSelector);
   const dispatch = useDispatch();
   const [title, setTitle] = useState<string>('');
   const [time, setTime] = useState<boolean>(
@@ -86,7 +86,8 @@ export default function ModalCard({ showModal, setShowModal, card }: IProps) {
   const onSaveChanges = (data: ICardInput) => {
     const updatedCard: ICard = {
       id: card.id,
-      parent_id: card.parent_id,
+      spaceId: card.spaceId,
+      categoryId: card.categoryId,
       badges: card.badges,
       title: data.title,
     };
@@ -131,7 +132,17 @@ export default function ModalCard({ showModal, setShowModal, card }: IProps) {
   };
 
   useEffect(() => {
-    setTitle(CardsUtils.findByParentIdCategory(board, card.parent_id));
+    if (boards !== undefined) {
+      const currentBoard = boards.find((el) => el.id === card.spaceId);
+      if (currentBoard !== undefined) {
+        setTitle(
+          CardsUtils.findByParentIdCategory(
+            currentBoard.categories,
+            card.categoryId,
+          ),
+        );
+      }
+    }
   }, []);
 
   return (

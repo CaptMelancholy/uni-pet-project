@@ -6,7 +6,7 @@ import AddCardForm from '../AddCardForm/AddCardForm';
 import IconButton from '../IconButtons/IconButton';
 import { EType } from '../IconButtons/IconButton.types';
 import { useDispatch } from 'react-redux';
-import { popCategory } from '../../store/slices/categories/categories.slice';
+import { popCategory } from '../../store/slices/categories/boards.slice';
 import ModalCategory from '../Modal/ModalCategory/ModalCategory';
 import { setScreenStatus } from '../../store/slices/screen/screen.slice';
 import { Droppable } from 'react-beautiful-dnd';
@@ -85,6 +85,7 @@ export default function Category({ category }: IProps) {
         {showAddCard ? (
           <AddCardForm
             categoryId={category.id}
+            spaceId={category.spaceId}
             setShowAddingCard={setShowAddCard}
           />
         ) : (

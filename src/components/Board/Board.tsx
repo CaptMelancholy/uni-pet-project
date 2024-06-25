@@ -6,16 +6,17 @@ import { useState } from 'react';
 import AddCategoryForm from '../AddCategoryForm/AddCategoryForm';
 import { DragDropContext, DragUpdate } from 'react-beautiful-dnd';
 import { useDispatch, useSelector } from 'react-redux';
-import { categoriesSelector } from '../../store/slices/categories/categories.selectors';
-import { updateCategory } from '../../store/slices/categories/categories.slice';
+import { boardsSelector } from '../../store/slices/categories/boards.selectors';
+import { updateCategory } from '../../store/slices/categories/boards.slice';
+import IBoard from './Board.types';
 
 interface IProps {
-  categories: Array<ICategory>;
+  board: IBoard;
 }
 
-export default function Board({ categories }: IProps) {
+export default function Board({ board }: IProps) {
   const [showAddCategory, setShowAddCategory] = useState<boolean>(false);
-  const board = useSelector(categoriesSelector);
+  const boards = useSelector(boardsSelector);
   const dispatch = useDispatch();
   const handleAddClick = () => {
     setShowAddCategory(true);
@@ -32,8 +33,10 @@ export default function Board({ categories }: IProps) {
       return;
     }
 
-    if (type === 'category') {
-      const categoryList = [...board];
+    const currentBoard = [...boards].find((el) => el.id === board.id);
+
+    if (type === 'category' && currentBoard !== undefined) {
+      const categoryList = currentBoard.categories;
       const sourceCategory = categoryList.find(
         (el) => el.id === parseInt(source.droppableId),
       );
@@ -49,6 +52,7 @@ export default function Board({ categories }: IProps) {
           cards.splice(destinationIndex, 0, removedItem);
           const newCategory: ICategory = {
             id: destinationCategory.id,
+            spaceId: destinationCategory.spaceId,
             cards: cards,
             title: destinationCategory.title,
           };
@@ -66,12 +70,14 @@ export default function Board({ categories }: IProps) {
 
         const oldCategory: ICategory = {
           id: sourceCategory.id,
+          spaceId: sourceCategory.spaceId,
           cards: sourceCards,
           title: sourceCategory.title,
         };
 
         const updatedCategory: ICategory = {
           id: destinationCategory.id,
+          spaceId: destinationCategory.spaceId,
           cards: destinationCards,
           title: destinationCategory.title,
         };
@@ -86,15 +92,18 @@ export default function Board({ categories }: IProps) {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <S.BoardContainer data-testid='board'>
-        {categories.length !== 0 &&
-          categories.map((category) => (
+        {board.categories.length !== 0 &&
+          board.categories.map((category) => (
             <Category
               key={category.id}
               category={category}
             />
           ))}
         {showAddCategory ? (
-          <AddCategoryForm setShowAddCategory={setShowAddCategory} />
+          <AddCategoryForm
+            setShowAddCategory={setShowAddCategory}
+            spaceId={board.id}
+          />
         ) : (
           <C.Button onClick={handleAddClick}>Add category</C.Button>
         )}

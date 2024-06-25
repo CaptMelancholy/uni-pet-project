@@ -2,10 +2,9 @@ import * as S from './AddCardForm.styles';
 import * as C from '../../styles/components';
 import { useForm } from 'react-hook-form';
 import { EStatuses, ICard } from '../Card/Card.types';
-import { INewCard } from '../../store/slices/categories/categories.types';
 import { useDispatch, useSelector } from 'react-redux';
-import { maxCardIdCategoriesSelector } from '../../store/slices/categories/categories.selectors';
-import { pushNewCard } from '../../store/slices/categories/categories.slice';
+import { maxCardIdBoardsSelector } from '../../store/slices/categories/boards.selectors';
+import { pushNewCard } from '../../store/slices/categories/boards.slice';
 import IconButton from '../IconButtons/IconButton';
 import { EType } from '../IconButtons/IconButton.types';
 import CardsUtils from '../../utils/Cards/CardsUtils';
@@ -19,12 +18,17 @@ interface ICardInput {
 
 interface IProps {
   categoryId: number;
+  spaceId: number;
   setShowAddingCard: (data: boolean) => void;
 }
 
-export default function AddCardForm({ categoryId, setShowAddingCard }: IProps) {
+export default function AddCardForm({
+  spaceId,
+  categoryId,
+  setShowAddingCard,
+}: IProps) {
   const dispatch = useDispatch();
-  const maxId = useSelector(maxCardIdCategoriesSelector);
+  const maxId = useSelector(maxCardIdBoardsSelector);
   const {
     register,
     handleSubmit,
@@ -69,7 +73,8 @@ export default function AddCardForm({ categoryId, setShowAddingCard }: IProps) {
   const handleAddCardSubmit = (data: ICardInput) => {
     const card: ICard = {
       id: maxId + 1,
-      parent_id: categoryId,
+      categoryId: categoryId,
+      spaceId: spaceId,
       badges: [],
       title: data.title,
     };
@@ -91,11 +96,7 @@ export default function AddCardForm({ categoryId, setShowAddingCard }: IProps) {
         deadline_time: data.time,
       };
     }
-    const newCard: INewCard = {
-      card,
-      parentId: categoryId,
-    };
-    dispatch(pushNewCard(newCard));
+    dispatch(pushNewCard(card));
     setShowAddingCard(false);
   };
 

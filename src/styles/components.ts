@@ -22,16 +22,36 @@ export const InputTitle = styled.input<{ $size: number }>`
   }
 `;
 
-export const Text = styled.p<{ $weight: number; $size: number }>`
+export const Text = styled.p<{
+  $weight: number;
+  $size: number;
+  $color?: string;
+}>`
   font-size: ${(props) => `${props.$size}px`};
   font-weight: ${(props) => `${props.$weight}`};
-  color: ${({ theme }) => theme.colors.primary};
+  color: ${(props) =>
+    props.$color ? props.$color : props.theme.colors.primary};
+`;
+
+export const Label = styled.label<{
+  $weight: number;
+  $size: number;
+  $color?: string;
+}>`
+  font-size: ${(props) => `${props.$size}px`};
+  font-weight: ${(props) => `${props.$weight}`};
+  color: ${(props) =>
+    props.$color ? props.$color : props.theme.colors.primary};
+`;
+
+export const Legend = styled.legend`
+  background-color: ${ ({ theme }) => theme.colors.primary };
 `;
 
 export const Error = styled.label`
   font-size: 12px;
   font-weight: 700;
-  color: ${ ({ theme }) => theme.colors.red }
+  color: ${({ theme }) => theme.colors.red};
 `;
 
 export const Button = styled.button`
@@ -44,11 +64,11 @@ export const Button = styled.button`
   height: 15%;
   transition: 0.3s ease-in-out;
   &:hover {
-    background-color: #D5D5D5;
+    background-color: #d5d5d5;
   }
 
   &:active {
-    box-shadow: 0px 0px 50px 10px rgba(213,213,213,1);
+    box-shadow: 0px 0px 50px 10px rgba(213, 213, 213, 1);
   }
 `;
 

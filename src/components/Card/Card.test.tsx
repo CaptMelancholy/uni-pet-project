@@ -8,7 +8,7 @@ describe('Cards tests', () => {
   test('render card with title, description, badges and deadline info with status, date and time', () => {
     const cardTestingObject: ICard = {
       id: 0,
-      parent_id: 0,
+      categoryId: 0,
       badges: [
         {
           color: '#000000',
@@ -40,7 +40,7 @@ describe('Cards tests', () => {
   test('render card with title, badges and deadline info with status, date and time, but without description', () => {
     const cardTestingObject: ICard = {
       id: 0,
-      parent_id: 0,
+      categoryId: 0,
       badges: [
         {
           color: '#000000',
@@ -67,7 +67,7 @@ describe('Cards tests', () => {
   test('render card with title, badges, but without time of deadline info', () => {
     const cardTestingObject: ICard = {
       id: 0,
-      parent_id: 0,
+      categoryId: 0,
       badges: [
         {
           color: '#000000',
@@ -95,7 +95,7 @@ describe('Cards tests', () => {
   test('render card but with empty badges', () => {
     const cardTestingObject: ICard = {
       id: 0,
-      parent_id: 0,
+      categoryId: 0,
       badges: [],
       title: 'Card Title',
       deadlineInfo: {
@@ -117,7 +117,7 @@ describe('Cards tests', () => {
   test('render card with status completed deadlines', () => {
     const cardTestingObject: ICard = {
       id: 0,
-      parent_id: 0,
+      categoryId: 0,
       badges: [],
       title: 'Card Title',
       deadlineInfo: {
@@ -140,7 +140,7 @@ describe('Cards tests', () => {
   test('render card with status deadline', () => {
     const cardTestingObject: ICard = {
       id: 0,
-      parent_id: 0,
+      categoryId: 0,
       badges: [],
       title: 'Card Title',
       deadlineInfo: {
@@ -162,7 +162,7 @@ describe('Cards tests', () => {
   test('render card with status in progress', () => {
     const cardTestingObject: ICard = {
       id: 0,
-      parent_id: 0,
+      categoryId: 0,
       badges: [],
       title: 'Card Title',
       deadlineInfo: {
@@ -184,7 +184,7 @@ describe('Cards tests', () => {
   test('render without date and time', () => {
     const cardTestingObject: ICard = {
       id: 0,
-      parent_id: 0,
+      categoryId: 0,
       badges: [],
       title: 'Card Title',
     };

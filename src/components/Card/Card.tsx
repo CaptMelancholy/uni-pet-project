@@ -10,7 +10,7 @@ import IconButton from '../IconButtons/IconButton';
 import {
   popCard,
   updateCard,
-} from '../../store/slices/categories/categories.slice';
+} from '../../store/slices/categories/boards.slice';
 import CardsUtils from '../../utils/Cards/CardsUtils';
 import { Draggable } from 'react-beautiful-dnd';
 
@@ -33,7 +33,8 @@ export default function Card({ index, card }: IProps) {
   const handleCheckDeadlineClick = () => {
     const updatedCard: ICard = {
       id: card.id,
-      parent_id: card.parent_id,
+      categoryId: card.categoryId,
+      spaceId: card.spaceId,
       badges: card.badges,
       title: card.title,
       desc: card.desc,
