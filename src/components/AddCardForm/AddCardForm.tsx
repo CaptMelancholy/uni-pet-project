@@ -8,6 +8,7 @@ import { maxCardIdCategoriesSelector } from '../../store/slices/categories/categ
 import { pushNewCard } from '../../store/slices/categories/categories.slice';
 import IconButton from '../IconButtons/IconButton';
 import { EType } from '../IconButtons/IconButton.types';
+import CardsUtils from '../../utils/Cards/CardsUtils';
 
 interface ICardInput {
   title: string;
@@ -66,7 +67,6 @@ export default function AddCardForm({ categoryId, setShowAddingCard }: IProps) {
   };
 
   const handleAddCardSubmit = (data: ICardInput) => {
-    console.log(data);
     const card: ICard = {
       id: maxId + 1,
       parent_id: categoryId,
@@ -74,25 +74,16 @@ export default function AddCardForm({ categoryId, setShowAddingCard }: IProps) {
       title: data.title,
     };
     card.desc = data.desc !== '' ? data.desc : undefined;
-    const todayData = new Date();
-    if (data.time === '' && data.date !== '') {
-      todayData.setHours(0, 0, 0, 0);
-      const enterData = new Date(data.date);
-      let status = EStatuses.InProgress;
-      if (todayData >= enterData) {
-        status = EStatuses.Deadline;
-      }
-      card.deadlineInfo = {
-        status,
-        deadline_date: data.date,
-      };
-    } else if (data.time !== '' && data.date !== '') {
-      const enterData = new Date(data.date);
-      const [hours, mins] = data.time.split(':');
-      enterData.setHours(parseInt(hours), parseInt(mins));
-      let status = EStatuses.InProgress;
-      if (todayData >= enterData) {
-        status = EStatuses.Deadline;
+    if (data.date !== '') {
+      let status: EStatuses = EStatuses.InProgress;
+      if (data.time !== '') {
+        status = CardsUtils.compareDates(data.date, data.time)
+          ? EStatuses.Deadline
+          : EStatuses.InProgress;
+      } else {
+        status = CardsUtils.compareDates(data.date, undefined)
+          ? EStatuses.Deadline
+          : EStatuses.InProgress;
       }
       card.deadlineInfo = {
         status,
