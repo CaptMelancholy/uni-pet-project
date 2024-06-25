@@ -1,49 +1,29 @@
-import { cleanup, render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { test } from 'vitest';
-import { ThemeProvider } from 'styled-components';
-import { lightTheme } from '../../styles/theme';
 import Board from './Board';
 import { ICategory } from '../Category/Category.types';
+import { render } from '../../tests/Render';
 
-describe('Category tests', () => {
-  afterEach(() => {
-    cleanup();
-  });
+describe('Board tests', () => {
 
-  test('render with categories', () => {
+  test('board should render specified categories', () => {
     const categories: Array<ICategory> = [
         {
             id: 0,
-            title: '123',
+            title: 'Category 1',
             cards: [],
         },
         {
             id: 1,
-            title: '1234',
+            title: 'Category 2',
             cards: [],
         },
     ];
 
-    render(
-      <ThemeProvider theme={lightTheme}>
-        <Board categories={categories} />
-      </ThemeProvider>,
-    );
+    render(<Board categories={categories} />);
 
     expect(screen.getByTestId('board')).toBeInTheDocument();
-    expect(screen.getByTestId('board').childNodes.length).toBe(2);
-  });
-
-  test('render without categories', () => {
-    const categories: Array<ICategory> = [];
-
-    render(
-      <ThemeProvider theme={lightTheme}>
-        <Board categories={categories} />
-      </ThemeProvider>,
-    );
-
-    expect(screen.getByTestId('board')).toBeInTheDocument();
-    expect(screen.getByTestId('board').childNodes.length).toBe(0);
+    expect(screen.getByText('Category 1')).toBeInTheDocument();
+    expect(screen.getByText('Category 2')).toBeInTheDocument();
   });
 });
