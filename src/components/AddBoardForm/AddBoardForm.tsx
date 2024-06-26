@@ -75,7 +75,7 @@ export default function AddBoardForm({ setShowAddBoard }: IProps) {
           $weight={700}
           $size={16}
         >
-          Add card
+          Add board
         </S.FormText>
         <IconButton
           $size={14}
@@ -132,7 +132,7 @@ export default function AddBoardForm({ setShowAddBoard }: IProps) {
         </S.FieldSet>
         {/* */}
       </S.InputContainer>
-      <C.SaveButton type='submit'>Add category</C.SaveButton>
+      <C.SaveButton type='submit'>Add board</C.SaveButton>
     </S.AddBoardContainer>
   );
 }

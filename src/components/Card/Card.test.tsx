@@ -9,6 +9,7 @@ describe('Cards tests', () => {
     const cardTestingObject: ICard = {
       id: 0,
       categoryId: 0,
+      spaceId: 0,
       badges: [
         {
           color: '#000000',
@@ -41,6 +42,7 @@ describe('Cards tests', () => {
     const cardTestingObject: ICard = {
       id: 0,
       categoryId: 0,
+      spaceId: 0,
       badges: [
         {
           color: '#000000',
@@ -68,6 +70,7 @@ describe('Cards tests', () => {
     const cardTestingObject: ICard = {
       id: 0,
       categoryId: 0,
+      spaceId: 0,
       badges: [
         {
           color: '#000000',
@@ -96,6 +99,7 @@ describe('Cards tests', () => {
     const cardTestingObject: ICard = {
       id: 0,
       categoryId: 0,
+      spaceId: 0,
       badges: [],
       title: 'Card Title',
       deadlineInfo: {
@@ -118,6 +122,7 @@ describe('Cards tests', () => {
     const cardTestingObject: ICard = {
       id: 0,
       categoryId: 0,
+      spaceId: 0,
       badges: [],
       title: 'Card Title',
       deadlineInfo: {
@@ -141,6 +146,7 @@ describe('Cards tests', () => {
     const cardTestingObject: ICard = {
       id: 0,
       categoryId: 0,
+      spaceId: 0,
       badges: [],
       title: 'Card Title',
       deadlineInfo: {
@@ -163,6 +169,7 @@ describe('Cards tests', () => {
     const cardTestingObject: ICard = {
       id: 0,
       categoryId: 0,
+      spaceId: 0,
       badges: [],
       title: 'Card Title',
       deadlineInfo: {
@@ -185,6 +192,7 @@ describe('Cards tests', () => {
     const cardTestingObject: ICard = {
       id: 0,
       categoryId: 0,
+      spaceId: 0,
       badges: [],
       title: 'Card Title',
     };
