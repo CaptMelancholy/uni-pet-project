@@ -1,49 +1,36 @@
-import { cleanup, render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { test } from 'vitest';
-import { ThemeProvider } from 'styled-components';
-import { lightTheme } from '../../styles/theme';
 import Board from './Board';
-import { ICategory } from '../Category/Category.types';
+import { render } from '../../tests/Render';
+import IBoard from './Board.types';
+import EColors from '../../styles/badge-colors';
 
-describe('Category tests', () => {
-  afterEach(() => {
-    cleanup();
-  });
-
-  test('render with categories', () => {
-    const categories: Array<ICategory> = [
+describe('Board tests', () => {
+  test('board should render specified categories', () => {
+    const board: IBoard = {
+      id: 0,
+      title: '',
+      color: EColors.red,
+      categories: [
         {
-            id: 0,
-            title: '123',
-            cards: [],
+          id: 0,
+          title: 'Category 1',
+          spaceId: 0,
+          cards: [],
         },
         {
-            id: 1,
-            title: '1234',
-            cards: [],
+          id: 1,
+          title: 'Category 2',
+          spaceId: 0,
+          cards: [],
         },
-    ];
+      ]
+    };
 
-    render(
-      <ThemeProvider theme={lightTheme}>
-        <Board categories={categories} />
-      </ThemeProvider>,
-    );
+    render(<Board board={board} />);
 
     expect(screen.getByTestId('board')).toBeInTheDocument();
-    expect(screen.getByTestId('board').childNodes.length).toBe(2);
-  });
-
-  test('render without categories', () => {
-    const categories: Array<ICategory> = [];
-
-    render(
-      <ThemeProvider theme={lightTheme}>
-        <Board categories={categories} />
-      </ThemeProvider>,
-    );
-
-    expect(screen.getByTestId('board')).toBeInTheDocument();
-    expect(screen.getByTestId('board').childNodes.length).toBe(0);
+    expect(screen.getByText('Category 1')).toBeInTheDocument();
+    expect(screen.getByText('Category 2')).toBeInTheDocument();
   });
 });

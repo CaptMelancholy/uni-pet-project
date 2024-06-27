@@ -1,9 +1,23 @@
 import styled from 'styled-components';
 import { EStatuses } from './Card.types';
 
-export const CardContainer = styled.div`
+export const CardContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 5px;
+  width: 100%;
+`;
+
+export const CardNavButtons = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+export const CardContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   padding: 5px 10px;
   background-color: ${({ theme }) => theme.colors.primary};
   gap: 5px;
@@ -11,7 +25,6 @@ export const CardContainer = styled.div`
   flex: 0 0 auto;
 `;
 
-CardContainer.displayName = "CardContainer"
 
 export const CardBadgeContainer = styled.div`
   display: flex;
@@ -20,7 +33,6 @@ export const CardBadgeContainer = styled.div`
   gap: 3px;
 `;
 
-CardBadgeContainer.displayName = "CardBadgeContainer"
 
 export const CardBadge = styled.div`
   background-color: ${(props) => props.color || props.theme.colors.grey};
@@ -32,7 +44,6 @@ export const CardBadge = styled.div`
   border-radius: 5px;
 `;
 
-CardBadge.displayName = "CardBadge"
 
 export const CardBadgeText = styled.p`
   font-weight: 600;
@@ -41,7 +52,6 @@ export const CardBadgeText = styled.p`
   color: black;
 `;
 
-CardBadgeText.displayName = "CardBadgeText"
 
 export const CardTitle = styled.p`
   font-weight: 400;
@@ -49,7 +59,6 @@ export const CardTitle = styled.p`
   color: ${({ theme }) => theme.colors.text};
 `;
 
-CardTitle.displayName = "CardTitle"
 
 export const CardDescription = styled.p`
   font-weight: 100;
@@ -57,21 +66,18 @@ export const CardDescription = styled.p`
   color: ${({ theme }) => theme.colors.text};
 `;
 
-CardDescription.displayName = "CardDescription"
 
 export const CardFooter = styled.div`
   display: flex;
-  // justify-content: space-around;
   flex-direction: row;
   align-items: center;
 `;
-
-CardFooter.displayName = "CardFooter"
 
 export const DateTimeContainer = styled.div<{ $status: EStatuses }>`
   display: flex;
   padding: 2px 5px;
   gap: 5px;
+  cursor: pointer;
   background-color: ${(props) => {
     switch(props.$status) {
       case EStatuses.Completed: {
@@ -109,7 +115,6 @@ export const DateTimeContainer = styled.div<{ $status: EStatuses }>`
   border-radius: 5px;
 `;
 
-DateTimeContainer.displayName = "DateTimeContainer"
 
 export const DateTimeTextContainer = styled.div`
   display: flex;
@@ -117,4 +122,6 @@ export const DateTimeTextContainer = styled.div`
   gap: 5px;
 `;
 
-DateTimeTextContainer.displayName = "DateTimeTextContainer";
+export const DnDRef = styled.div`
+  
+`;

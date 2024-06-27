@@ -8,5 +8,5 @@ export const BoardContainer = styled.div`
   overflow-y: hidden;
   scrollbar-width: thin;
   flex: 1 1;
-  align-items: stretch;
+  min-height: 0;
 `;
