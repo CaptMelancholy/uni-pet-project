@@ -22,7 +22,6 @@ export default function Board({ categories }: IProps) {
   };
 
   const onDragEnd = (result: DragUpdate) => {
-    console.log('Stupid shit');
     const { destination, source, type } = result;
 
     if (!destination) return;
@@ -35,57 +34,50 @@ export default function Board({ categories }: IProps) {
 
     if (type === 'category') {
       const categoryList = [...board];
+      const sourceCategory = categoryList.find(
+        (el) => el.id === parseInt(source.droppableId),
+      );
+      const destinationCategory = categoryList.find(
+        (el) => el.id === parseInt(destination.droppableId),
+      );
+      const sourceIndex = source.index;
+      const destinationIndex = destination.index;
       if (destination.droppableId === source.droppableId) {
-        const category = categoryList.find(
-          (el) => el.id === parseInt(destination.droppableId),
-        );
-        if (category !== undefined) {
-          const cards = [...category.cards];
-          const sourceIndex = source.index;
-          const destinationIndex = destination.index;
-
+        if (destinationCategory !== undefined) {
+          const cards = [...destinationCategory.cards];
           const [removedItem] = cards.splice(sourceIndex, 1);
           cards.splice(destinationIndex, 0, removedItem);
           const newCategory: ICategory = {
-            id: category.id,
+            id: destinationCategory.id,
             cards: cards,
-            title: category.title,
+            title: destinationCategory.title,
           };
           dispatch(updateCategory(newCategory));
         }
-      } else {
-        const sourceCategory = categoryList.find(
-          (el) => el.id === parseInt(source.droppableId),
-        );
-        const destinationCategory = categoryList.find(
-          (el) => el.id === parseInt(destination.droppableId),
-        );
+      } else if (
+        sourceCategory !== undefined &&
+        destinationCategory !== undefined
+      ) {
+        const sourceCards = [...sourceCategory.cards];
+        const destinationCards = [...destinationCategory.cards];
 
-        const sourceIndex = source.index;
-        const destinationIndex = destination.index;
+        const [removedItem] = sourceCards.splice(sourceIndex, 1);
+        destinationCards.splice(destinationIndex, 0, removedItem);
 
-        if(sourceCategory !== undefined && destinationCategory !== undefined) {
-          const sourceCards = [...sourceCategory.cards];
-          const destinationCards = [...destinationCategory.cards];
+        const oldCategory: ICategory = {
+          id: sourceCategory.id,
+          cards: sourceCards,
+          title: sourceCategory.title,
+        };
 
-          const [removedItem] = sourceCards.splice(sourceIndex, 1);
-          destinationCards.splice(destinationIndex, 0, removedItem);
+        const updatedCategory: ICategory = {
+          id: destinationCategory.id,
+          cards: destinationCards,
+          title: destinationCategory.title,
+        };
 
-          const oldCategory : ICategory = {
-            id: sourceCategory.id,
-            cards: sourceCards,
-            title: sourceCategory.title,
-          }
-
-          const updatedCategory : ICategory = {
-            id: destinationCategory.id,
-            cards: destinationCards,
-            title: destinationCategory.title,
-          }
-
-          dispatch(updateCategory(updatedCategory));
-          dispatch(updateCategory(oldCategory));
-        }
+        dispatch(updateCategory(updatedCategory));
+        dispatch(updateCategory(oldCategory));
       }
     }
     return;

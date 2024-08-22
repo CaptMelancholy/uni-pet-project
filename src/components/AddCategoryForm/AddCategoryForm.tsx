@@ -42,7 +42,6 @@ export default function AddCategoryForm({ setShowAddCategory }: IProps) {
   };
 
   const handleAddSubmit = (data: ICategoryInput) => {
-    console.log(data);
     const newCategory: ICategory = {
       id: maxId + 1,
       title: data.title,

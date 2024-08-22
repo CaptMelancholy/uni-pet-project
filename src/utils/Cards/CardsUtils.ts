@@ -9,6 +9,7 @@ class CardsUtils {
     const { title } = board.find((element) => element.id === parentId)!;
     return title;
   }
+
   public static chooseStatus(
     status: EStatuses,
     date: string,
@@ -24,7 +25,7 @@ class CardsUtils {
     return EStatuses.Completed;
   }
 
-  private static compareDates(date: string, time: string | undefined) {
+  public static compareDates(date: string, time: string | undefined) {
     const todayDate = new Date();
     const currentDate = new Date(date);
     if (time !== undefined) {
