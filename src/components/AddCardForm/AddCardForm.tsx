@@ -1,19 +1,21 @@
 import * as S from './AddCardForm.styles';
 import * as C from '../../styles/components';
 import { useForm } from 'react-hook-form';
-import { EStatuses, ICard } from '../Card/Card.types';
-import { useDispatch, useSelector } from 'react-redux';
-import { maxCardIdBoardsSelector } from '../../store/slices/categories/boards.selectors';
-import { pushNewCard } from '../../store/slices/categories/boards.slice';
+import { EPriority, EStatuses, ICardDTO } from '../Card/Card.types';
+import { useDispatch } from 'react-redux';
 import IconButton from '../IconButtons/IconButton';
 import { EType } from '../IconButtons/IconButton.types';
 import CardsUtils from '../../utils/Cards/CardsUtils';
+import { EButtonType, EInputFieldTypes } from '../../utils/DesignType.types';
+import { AppDispatch } from '../../store';
+import { createCard } from '../../store/thunks/boards.thunk';
 
 interface ICardInput {
   title: string;
   desc: string;
   date: string;
   time: string;
+  priority?: EPriority | string;
 }
 
 interface IProps {
@@ -27,8 +29,7 @@ export default function AddCardForm({
   categoryId,
   setShowAddingCard,
 }: IProps) {
-  const dispatch = useDispatch();
-  const maxId = useSelector(maxCardIdBoardsSelector);
+  const dispatch = useDispatch<AppDispatch>();
   const {
     register,
     handleSubmit,
@@ -63,6 +64,7 @@ export default function AddCardForm({
         },
       },
     },
+    priority: {},
   };
 
   const handleOnClose = () => {
@@ -71,14 +73,20 @@ export default function AddCardForm({
   };
 
   const handleAddCardSubmit = (data: ICardInput) => {
-    const card: ICard = {
-      id: maxId + 1,
+    const createThisCard = async(dto : ICardDTO) => {
+      dispatch(createCard({ card: dto }));
+    }
+    const dto : ICardDTO = {
+      id: 0,
       categoryId: categoryId,
-      spaceId: spaceId,
-      badges: [],
+      boardId: spaceId,
       title: data.title,
-    };
-    card.desc = data.desc !== '' ? data.desc : undefined;
+    }
+    dto.desc = data.desc !== '' ? data.desc : undefined;
+    dto.priority = data.priority !== '' ? (data.priority as EPriority) : undefined;
+    dto.deadline_date = data.date !== '' ? data.date : undefined; 
+    dto.deadline_time = data.time !== '' ? data.time : undefined;
+    dto.status 
     if (data.date !== '') {
       let status: EStatuses = EStatuses.InProgress;
       if (data.time !== '') {
@@ -90,13 +98,9 @@ export default function AddCardForm({
           ? EStatuses.Deadline
           : EStatuses.InProgress;
       }
-      card.deadlineInfo = {
-        status,
-        deadline_date: data.date,
-        deadline_time: data.time,
-      };
+      dto.status = status;
     }
-    dispatch(pushNewCard(card));
+    createThisCard(dto);
     setShowAddingCard(false);
   };
 
@@ -122,7 +126,8 @@ export default function AddCardForm({
         >
           Title
         </S.FormText>
-        <C.InputTitle
+        <C.InputField
+          $type={EInputFieldTypes.onBright}
           $size={12}
           placeholder='Enter title...'
           {...register('title', submitOptions.title)}
@@ -136,7 +141,8 @@ export default function AddCardForm({
         >
           Description
         </S.FormText>
-        <C.InputTitle
+        <C.InputField
+          $type={EInputFieldTypes.onBright}
           $size={12}
           placeholder='Enter desc...'
           {...register('desc', submitOptions.desc)}
@@ -148,9 +154,29 @@ export default function AddCardForm({
           $weight={400}
           $size={12}
         >
+          Priority
+        </S.FormText>
+        <C.Select
+          $type={EInputFieldTypes.onBright}
+          defaultValue={''}
+          {...register('priority', submitOptions.priority)}
+        >
+          <C.Option value=''>No Priority</C.Option>
+          <C.Option value={EPriority.critical}>Critical</C.Option>
+          <C.Option value={EPriority.high}>High</C.Option>
+          <C.Option value={EPriority.medium}>Medium</C.Option>
+          <C.Option value={EPriority.low}>Low</C.Option>
+        </C.Select>
+      </S.InputContainer>
+      <S.InputContainer>
+        <S.FormText
+          $weight={400}
+          $size={12}
+        >
           Deadline date
         </S.FormText>
-        <input
+        <S.DateTimeAddField
+          $type={EInputFieldTypes.onBright}
           type='date'
           {...register('date')}
         />
@@ -162,13 +188,14 @@ export default function AddCardForm({
         >
           Deadline time
         </S.FormText>
-        <input
+        <S.DateTimeAddField
+          $type={EInputFieldTypes.onBright}
           type='time'
           {...register('time', submitOptions.time)}
         />
         {errors.time && <C.Error>{errors.time.message}</C.Error>}
       </S.InputContainer>
-      <C.SaveButton>Add card</C.SaveButton>
+      <C.Button $type={EButtonType.add}>Add card</C.Button>
     </S.AddCardForm>
   );
 }

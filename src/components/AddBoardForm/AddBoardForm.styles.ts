@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import { InputTitle, Text } from '../../styles/components';
+import { InputField, Text } from '../../styles/components';
 
 export const AddBoardContainer = styled.form`
-  background-color: ${({ theme }) => theme.colors.secondary};
-  border-radius: 2px;
+  background-color: ${({ theme }) => theme.colors.primary};
+  border-radius: 10px;
   padding: 10px;
   min-width: 362px;
   display: flex;
@@ -20,7 +20,7 @@ export const InputContainer = styled.div`
   gap: 5px;
 `;
 
-export const FormInput = styled(InputTitle)`
+export const FormInput = styled(InputField)`
   background-color: ${({ theme }) => theme.colors.primary};
   color: ${({ theme }) => theme.colors.secondary};
   &:focus {
@@ -31,19 +31,20 @@ export const FormInput = styled(InputTitle)`
 `;
 
 export const FormText = styled(Text)`
-  color: ${({ theme }) => theme.colors.primary};
+
+  color: ${({ theme }) => theme.colors.text_on_bright};
 `;
 
 export const FieldSet = styled.fieldset`
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 `;
 
 export const RadioContainer = styled.div`
-    display: flex;
-    gap: 5px;
-    padding: 10px;
+  display: flex;
+  gap: 5px;
+  padding: 10px;
 `;
 
 export const InfoContainer = styled.div`

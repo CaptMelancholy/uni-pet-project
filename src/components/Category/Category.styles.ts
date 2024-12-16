@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 import { Button } from '../../styles/components';
 
-
 export const CategoryContainer = styled.div`
-  background-color: ${({ theme }) => theme.colors.secondary};
-  border-radius: 2px;
+  background-color: ${({ theme }) => theme.colors.primary};
+  border-radius: 10px;
   padding: 10px;
   min-width: 425px;
   display: flex;
@@ -12,6 +11,9 @@ export const CategoryContainer = styled.div`
   flex: 0 1;
   max-height: 100%;
   align-self: flex-start;
+  -webkit-box-shadow: 0px 0px 15px 12px rgba(46, 64, 87, 0.64);
+  -moz-box-shadow: 0px 0px 15px 12px rgba(46, 64, 87, 0.64);
+  box-shadow: 0px 0px 15px 12px rgba(46, 64, 87, 0.64);
 `;
 
 export const CategoryNav = styled.div`
@@ -31,6 +33,7 @@ export const CategoryTitle = styled.h3`
   font-weight: 700;
   text-transform: capitalize;
   font-size: 28px;
+  color: ${({ theme }) => theme.colors.text_on_bright};
 `;
 
 export const CardsList = styled.div`
@@ -46,4 +49,4 @@ export const CardsList = styled.div`
 export const AddCardButton = styled(Button)`
   margin-top: 20px;
   min-width: 100% !important;
-`
+`;

@@ -19,6 +19,12 @@ export const DescContainer = styled.div`
   flex-direction: column;
 `;
 
+export const PriorityContainer = styled.div`
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+`;
+
 export const DataContainer = styled.div`
   display: flex;
   gap: 10px;

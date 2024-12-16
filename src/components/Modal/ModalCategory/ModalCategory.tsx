@@ -4,8 +4,11 @@ import * as S from './ModalCategory.styles';
 import * as C from '../../../styles/components';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { setScreenStatus } from '../../../store/slices/screen/screen.slice';
-import { updateCategory } from '../../../store/slices/categories/boards.slice';
+import { useTheme } from 'styled-components';
+import { EButtonType, EInputFieldTypes } from '../../../utils/DesignType.types';
+import { useScreenBlock } from '../../../context/ScreenHooks';
+import { updateCategory } from '../../../store/thunks/boards.thunk';
+import { AppDispatch } from '../../../store';
 
 interface IProps {
   showModal: boolean;
@@ -27,8 +30,9 @@ export default function ModalCategory({
     handleSubmit,
     formState: { errors },
   } = useForm<ICategoryInput>();
-  const dispatch = useDispatch();
-
+  const dispatch = useDispatch<AppDispatch>();
+  const theme = useTheme();
+  const { setScreen } = useScreenBlock();
   const submitOptions = {
     title: {
       required: 'Title is required',
@@ -40,20 +44,24 @@ export default function ModalCategory({
   };
 
   const handleSaveChanges = (data: ICategoryInput) => {
+    const updateThisCategory = async(category : ICategory) => {
+      dispatch(updateCategory({ category }));
+    }
     const updatedCategory: ICategory = {
       id: category.id,
-      spaceId: category.spaceId,
+      boardId: category.boardId,
       title: data.title,
       cards: category.cards,
     };
-    dispatch(updateCategory(updatedCategory));
+    updateThisCategory(updatedCategory);
     document.body.style.overflow = 'scroll';
-    dispatch(setScreenStatus(false));
+    setScreen(false);
     setShowModal(false);
   };
 
   return (
     <Modal
+      title={`Edit Category: ${category.title}`}
       showModal={showModal}
       setShowModal={setShowModal}
     >
@@ -62,10 +70,12 @@ export default function ModalCategory({
           <C.Text
             $size={16}
             $weight={700}
+            $color={theme.colors.text_on_bright}
           >
             Title
           </C.Text>
-          <C.InputTitle
+          <C.InputField
+            $type={EInputFieldTypes.onBright}
             $size={16}
             defaultValue={category.title}
             placeholder='Enter title...'
@@ -73,7 +83,12 @@ export default function ModalCategory({
           />
           {errors.title && <C.Error>{errors.title.message}</C.Error>}
         </S.ModalContentContainer>
-        <C.SaveButton type='submit'>Save changes</C.SaveButton>
+        <C.Button
+          $type={EButtonType.add}
+          type='submit'
+        >
+          Save changes
+        </C.Button>
       </S.ModalForm>
     </Modal>
   );

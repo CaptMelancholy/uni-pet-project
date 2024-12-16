@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import { InputTitle, Text } from '../../styles/components';
+import { InputField, Text } from '../../styles/components';
 
 export const AddCategoryContainer = styled.form`
-  background-color: ${({ theme }) => theme.colors.secondary};
-  border-radius: 2px;
-  padding: 10px;
+  background-color: ${({ theme }) => theme.colors.primary};
+  border-radius: 10px;
+  padding: 20px;
   min-width: 425px;
   display: flex;
   flex-direction: column;
@@ -20,7 +20,7 @@ export const InputContainer = styled.div`
   gap: 5px;
 `;
 
-export const FormInput = styled(InputTitle)`
+export const FormInput = styled(InputField)`
   background-color: ${({ theme }) => theme.colors.primary};
   color: ${({ theme }) => theme.colors.secondary};
   &:focus {
@@ -31,7 +31,7 @@ export const FormInput = styled(InputTitle)`
 `;
 
 export const FormText = styled(Text)`
-  color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.text_on_bright};
 `;
 
 export const InfoContainer = styled.div`
@@ -39,3 +39,5 @@ export const InfoContainer = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
+
+

@@ -1,14 +1,15 @@
 import * as S from './Board.styles';
-import { ICategory } from '../Category/Category.types';
 import Category from '../Category/Category';
-import * as C from '../../styles/components';
 import { useState } from 'react';
 import AddCategoryForm from '../AddCategoryForm/AddCategoryForm';
 import { DragDropContext, DragUpdate } from 'react-beautiful-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import { boardsSelector } from '../../store/slices/categories/boards.selectors';
-import { updateCategory } from '../../store/slices/categories/boards.slice';
 import IBoard from './Board.types';
+import { EButtonType } from '../../utils/DesignType.types';
+import { ICard, ICardDTO } from '../Card/Card.types';
+import { AppDispatch } from '../../store';
+import { updateCard } from '../../store/thunks/boards.thunk';
 
 interface IProps {
   board: IBoard;
@@ -17,12 +18,26 @@ interface IProps {
 export default function Board({ board }: IProps) {
   const [showAddCategory, setShowAddCategory] = useState<boolean>(false);
   const boards = useSelector(boardsSelector);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const handleAddClick = () => {
     setShowAddCategory(true);
   };
 
   const onDragEnd = (result: DragUpdate) => {
+    const updateThisCard = async (newCard : ICard) => {
+      const dto : ICardDTO = {
+        id: newCard.id,
+        categoryId: newCard.categoryId,
+        boardId: newCard.boardId,
+        title: newCard.title,
+        deadline_date: newCard.deadlineInfo?.deadline_date,
+        deadline_time: newCard.deadlineInfo?.deadline_time,
+        status: newCard.deadlineInfo?.status,
+        priority: newCard.priority,
+        desc: newCard.desc,
+      }
+      dispatch(updateCard({ card: dto }));
+    } 
     const { destination, source, type } = result;
 
     if (!destination) return;
@@ -49,14 +64,12 @@ export default function Board({ board }: IProps) {
         if (destinationCategory !== undefined) {
           const cards = [...destinationCategory.cards];
           const [removedItem] = cards.splice(sourceIndex, 1);
-          cards.splice(destinationIndex, 0, removedItem);
-          const newCategory: ICategory = {
-            id: destinationCategory.id,
-            spaceId: destinationCategory.spaceId,
-            cards: cards,
-            title: destinationCategory.title,
+          const newCard: ICard = {
+            ...removedItem,
+            categoryId: parseInt(destination.droppableId),
           };
-          dispatch(updateCategory(newCategory));
+          cards.splice(destinationIndex, 0, newCard);
+          updateThisCard(newCard);
         }
       } else if (
         sourceCategory !== undefined &&
@@ -66,24 +79,15 @@ export default function Board({ board }: IProps) {
         const destinationCards = [...destinationCategory.cards];
 
         const [removedItem] = sourceCards.splice(sourceIndex, 1);
+        const newCard: ICard = {
+          ...removedItem,
+          categoryId: parseInt(destination.droppableId),
+        };
         destinationCards.splice(destinationIndex, 0, removedItem);
 
-        const oldCategory: ICategory = {
-          id: sourceCategory.id,
-          spaceId: sourceCategory.spaceId,
-          cards: sourceCards,
-          title: sourceCategory.title,
-        };
 
-        const updatedCategory: ICategory = {
-          id: destinationCategory.id,
-          spaceId: destinationCategory.spaceId,
-          cards: destinationCards,
-          title: destinationCategory.title,
-        };
 
-        dispatch(updateCategory(updatedCategory));
-        dispatch(updateCategory(oldCategory));
+        updateThisCard(newCard);
       }
     }
     return;
@@ -105,7 +109,12 @@ export default function Board({ board }: IProps) {
             spaceId={board.id}
           />
         ) : (
-          <C.Button onClick={handleAddClick}>Add category</C.Button>
+          <S.ButtonOnField
+            $type={EButtonType.empty}
+            onClick={handleAddClick}
+          >
+            Add category
+          </S.ButtonOnField>
         )}
       </S.BoardContainer>
     </DragDropContext>

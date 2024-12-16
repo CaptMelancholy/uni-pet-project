@@ -1,12 +1,13 @@
 import * as S from './AddCategoryForm.styles';
 import * as C from '../../styles/components';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
-import { maxCategoryIdBoardsSelector } from '../../store/slices/categories/boards.selectors';
+import { useDispatch } from 'react-redux';
 import { ICategory } from '../Category/Category.types';
-import { pushNewCategory } from '../../store/slices/categories/boards.slice';
 import IconButton from '../IconButtons/IconButton';
 import { EType } from '../IconButtons/IconButton.types';
+import { EButtonType, EInputFieldTypes } from '../../utils/DesignType.types';
+import { AppDispatch } from '../../store';
+import { createCategory } from '../../store/thunks/boards.thunk';
 
 interface ICategoryInput {
   title: string;
@@ -21,8 +22,7 @@ export default function AddCategoryForm({
   setShowAddCategory,
   spaceId,
 }: IProps) {
-  const dispatch = useDispatch();
-  const maxId = useSelector(maxCategoryIdBoardsSelector);
+  const dispatch = useDispatch<AppDispatch>();
   const {
     register,
     handleSubmit,
@@ -46,13 +46,16 @@ export default function AddCategoryForm({
   };
 
   const handleAddSubmit = (data: ICategoryInput) => {
+    const pushNewCategory = async(category : ICategory) => {
+      dispatch(createCategory({ category }));
+    }
     const newCategory: ICategory = {
-      id: maxId + 1,
-      spaceId: spaceId,
+      id: 0,
+      boardId: spaceId,
       title: data.title,
       cards: [],
     };
-    dispatch(pushNewCategory(newCategory));
+    pushNewCategory(newCategory);
     setShowAddCategory(false);
   };
 
@@ -61,7 +64,7 @@ export default function AddCategoryForm({
       <S.InfoContainer>
         <S.FormText
           $weight={700}
-          $size={16}
+          $size={18}
         >
           Adding Category
         </S.FormText>
@@ -78,14 +81,20 @@ export default function AddCategoryForm({
         >
           Title
         </S.FormText>
-        <S.FormInput
+        <C.InputField
+          $type={EInputFieldTypes.onDark}
           $size={14}
           placeholder='Enter title...'
           {...register('title', submitOptions.title)}
         />
         {errors.title && <C.Error>{errors.title.message}</C.Error>}
       </S.InputContainer>
-      <C.SaveButton type='submit'>Add category</C.SaveButton>
+      <C.Button
+        $type={EButtonType.add}
+        type='submit'
+      >
+        Add category
+      </C.Button>
     </S.AddCategoryContainer>
   );
 }

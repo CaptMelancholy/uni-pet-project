@@ -2,12 +2,13 @@ import IconButton from '../IconButtons/IconButton';
 import { EType } from '../IconButtons/IconButton.types';
 import * as S from './AddBoardForm.styles';
 import * as C from '../../styles/components';
-import EColors from '../../styles/badge-colors';
-import { useDispatch, useSelector } from 'react-redux';
-import { maxBoardIdBoardsSelector } from '../../store/slices/categories/boards.selectors';
+import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import IBoard from '../Board/Board.types';
-import { pushNewSpace } from '../../store/slices/categories/boards.slice';
+import { EButtonType, EInputFieldTypes } from '../../utils/DesignType.types';
+import { getRandomColor } from '../../styles/badge-colors';
+import { createBoard } from '../../store/thunks/boards.thunk';
+import { AppDispatch } from '../../store';
 
 interface IBoardInput {
   title: string;
@@ -24,8 +25,7 @@ export default function AddBoardForm({ setShowAddBoard }: IProps) {
     reset();
     setShowAddBoard(false);
   };
-  const dispatch = useDispatch();
-  const maxId = useSelector(maxBoardIdBoardsSelector);
+  const dispatch = useDispatch<AppDispatch>();
   const {
     register,
     handleSubmit,
@@ -50,22 +50,24 @@ export default function AddBoardForm({ setShowAddBoard }: IProps) {
         },
       },
     },
-    color: {
-      required: 'Color is required',
-    },
   };
 
   const handleAddSubmit = (data: IBoardInput) => {
-    const newBoard : IBoard = {
-        id: maxId + 1,
-        title: data.title,
-        color: EColors[data.color as keyof typeof EColors],
-        categories: []
+    const postNewBoard = async (board: IBoard) => {
+      dispatch(createBoard({ board }));
+    };
+    const newBoard: IBoard = {
+      id: 0,
+      title: data.title,
+      categories: [],
+      color: getRandomColor(),
+      invite_link: '',
+    };
+    if (data.desc !== '') {
+      newBoard.desc = data.desc;
     }
-    if(data.desc !== '') {
-        newBoard.desc = data.desc;
-    }
-    dispatch(pushNewSpace(newBoard));
+    postNewBoard(newBoard);
+    setShowAddBoard(false);
   };
 
   return (
@@ -90,8 +92,9 @@ export default function AddBoardForm({ setShowAddBoard }: IProps) {
         >
           Title
         </S.FormText>
-        <S.FormInput
+        <C.InputField
           $size={14}
+          $type={EInputFieldTypes.onDark}
           placeholder='Enter title...'
           {...register('title', submitOptions.title)}
         />
@@ -102,37 +105,21 @@ export default function AddBoardForm({ setShowAddBoard }: IProps) {
         >
           Subtitle
         </S.FormText>
-        <S.FormInput
+        <C.InputField
+          $type={EInputFieldTypes.onDark}
           $size={14}
           placeholder='Enter subtitle...'
           {...register('desc', submitOptions.desc)}
         />
         {errors.desc && <C.Error>{errors.desc.message}</C.Error>}
-        <S.FieldSet>
-          <C.Legend>Select color</C.Legend>
-          {Object.entries(EColors).map((el) => (
-            <S.RadioContainer>
-              <input
-                type='radio'
-                id={el[0]}
-                {...register('color', submitOptions.color)}
-                value={el[0]}
-              />
-              <C.Label
-                $size={12}
-                $weight={400}
-                $color={el[1]}
-                htmlFor={el[0]}
-              >
-                {el[0]}
-              </C.Label>
-              {errors.color && <C.Error>{errors.color.message}</C.Error>}
-            </S.RadioContainer>
-          ))}
-        </S.FieldSet>
         {/* */}
       </S.InputContainer>
-      <C.SaveButton type='submit'>Add board</C.SaveButton>
+      <C.Button
+        type='submit'
+        $type={EButtonType.add}
+      >
+        Add board
+      </C.Button>
     </S.AddBoardContainer>
   );
 }

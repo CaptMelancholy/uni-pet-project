@@ -1,4 +1,5 @@
-import { useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from 'react';
 import Card from '../Card/Card';
 import * as S from './Category.styles';
 import { ICategory } from './Category.types';
@@ -6,33 +7,54 @@ import AddCardForm from '../AddCardForm/AddCardForm';
 import IconButton from '../IconButtons/IconButton';
 import { EType } from '../IconButtons/IconButton.types';
 import { useDispatch } from 'react-redux';
-import { popCategory } from '../../store/slices/categories/boards.slice';
 import ModalCategory from '../Modal/ModalCategory/ModalCategory';
-import { setScreenStatus } from '../../store/slices/screen/screen.slice';
 import { Droppable } from 'react-beautiful-dnd';
+import { useScreenBlock } from '../../context/ScreenHooks';
+import { EButtonType } from '../../utils/DesignType.types';
+import { deleteCategory, readBoards } from '../../store/thunks/boards.thunk';
+import { AppDispatch } from '../../store';
+import { useAuth } from '../../context/AuthHooks';
 
 interface IProps {
   category: ICategory;
 }
 
 export default function Category({ category }: IProps) {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [showModal, setShowModal] = useState(false);
   const [showAddCard, setShowAddCard] = useState<boolean>(false);
-
+  const { setScreen } = useScreenBlock();
+  const { isAuth } = useAuth();
   const handleAddClick = () => {
     setShowAddCard(true);
   };
 
   const handleOnDelete = () => {
-    dispatch(popCategory(category));
+    const deleteThisCategory = async() => {
+      dispatch(deleteCategory({ category }));
+    }
+    deleteThisCategory();
   };
 
   const handleEditClick = () => {
     setShowModal(true);
-    dispatch(setScreenStatus(true));
+    setScreen(true);
     document.body.style.overflow = 'hidden';
   };
+
+  useEffect(() => {
+      const setBoard = async () => {
+        dispatch(readBoards());
+      };
+      setBoard();
+    }, [category.cards.length]);
+  
+    useEffect(() => {
+      const setBoard = async () => {
+        dispatch(readBoards());
+      };
+      setBoard();
+    }, [isAuth]);
 
   return (
     <>
@@ -85,11 +107,16 @@ export default function Category({ category }: IProps) {
         {showAddCard ? (
           <AddCardForm
             categoryId={category.id}
-            spaceId={category.spaceId}
+            spaceId={category.boardId}
             setShowAddingCard={setShowAddCard}
           />
         ) : (
-          <S.AddCardButton onClick={handleAddClick}>Add card</S.AddCardButton>
+          <S.AddCardButton
+            $type={EButtonType.dashed}
+            onClick={handleAddClick}
+          >
+            Add card
+          </S.AddCardButton>
         )}
       </S.CategoryContainer>
     </>

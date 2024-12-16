@@ -18,10 +18,10 @@ export const ModalContainer = styled.div`
 
 export const ModalNavigation = styled.div`
   display: flex;
-  justify-content: end;
-  cursor: pointer;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
-  color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.text_on_bright};
   & > svg {
     width: 15px;
     height: auto;

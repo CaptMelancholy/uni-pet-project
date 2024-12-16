@@ -1,18 +1,16 @@
 import * as S from './Card.styles';
 import { FaClock, FaRegCalendar } from 'react-icons/fa';
-import { ICard } from './Card.types';
+import { ICard, ICardDTO } from './Card.types';
 import { useState } from 'react';
 import ModalCard from '../Modal/ModalCard/ModalCard';
 import { useDispatch } from 'react-redux';
-import { setScreenStatus } from '../../store/slices/screen/screen.slice';
 import { EType } from '../IconButtons/IconButton.types';
 import IconButton from '../IconButtons/IconButton';
-import {
-  popCard,
-  updateCard,
-} from '../../store/slices/categories/boards.slice';
 import CardsUtils from '../../utils/Cards/CardsUtils';
 import { Draggable } from 'react-beautiful-dnd';
+import { useScreenBlock } from '../../context/ScreenHooks';
+import { AppDispatch } from '../../store';
+import { deleteCard, updateCard } from '../../store/thunks/boards.thunk';
 
 interface IProps {
   card: ICard;
@@ -21,34 +19,39 @@ interface IProps {
 
 export default function Card({ index, card }: IProps) {
   const [showModal, setShowModal] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
+  const { setScreen } = useScreenBlock();
   const handleEditCardClick = () => {
     setShowModal(true);
-    dispatch(setScreenStatus(true));
+    setScreen(true);
     document.body.style.overflow = 'hidden';
   };
   const handleOnDelete = () => {
-    dispatch(popCard(card));
+    const deleteThisCard = async(card : ICard) => {
+      dispatch(deleteCard({ card }));
+    }
+    deleteThisCard(card);
   };
   const handleCheckDeadlineClick = () => {
-    const updatedCard: ICard = {
+    const updateThisCard = async(card : ICardDTO) => {
+      dispatch(updateCard({ card }));
+    }
+    const updatedCard: ICardDTO = {
       id: card.id,
       categoryId: card.categoryId,
-      spaceId: card.spaceId,
-      badges: card.badges,
+      boardId: card.boardId,
+      priority: card.priority,
       title: card.title,
       desc: card.desc,
-      deadlineInfo: {
-        status: CardsUtils.chooseStatus(
-          card.deadlineInfo!.status,
-          card.deadlineInfo!.deadline_date,
-          card.deadlineInfo?.deadline_time,
-        ),
-        deadline_date: card.deadlineInfo!.deadline_date,
-        deadline_time: card.deadlineInfo?.deadline_time,
-      },
+      status: CardsUtils.chooseStatus(
+        card.deadlineInfo!.status,
+        card.deadlineInfo!.deadline_date,
+        card.deadlineInfo?.deadline_time,
+      ),
+      deadline_date: card.deadlineInfo!.deadline_date,
+      deadline_time: card.deadlineInfo?.deadline_time,
     };
-    dispatch(updateCard(updatedCard));
+    updateThisCard(updatedCard);
   };
   return (
     <>
@@ -69,19 +72,15 @@ export default function Card({ index, card }: IProps) {
             ref={provided.innerRef}
           >
             <S.CardContentWrapper>
-              {card.badges.length !== 0 && (
+              {card.priority && (
                 <S.CardBadgeContainer data-testid='badge-container'>
-                  {card.badges.map(({ color, text }, index) => {
-                    return (
-                      <S.CardBadge
-                        key={index}
-                        color={color}
-                        data-testid='badge'
-                      >
-                        <S.CardBadgeText>{text}</S.CardBadgeText>
-                      </S.CardBadge>
-                    );
-                  })}
+                  <S.CardBadge
+                    key={index}
+                    $type={card.priority}
+                    data-testid='badge'
+                  >
+                    <S.CardBadgeText>{card.priority}</S.CardBadgeText>
+                  </S.CardBadge>
                 </S.CardBadgeContainer>
               )}
               <S.CardTitle>{card.title}</S.CardTitle>

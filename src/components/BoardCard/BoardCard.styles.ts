@@ -7,11 +7,11 @@ export const BoardCardContainer = styled.div<{ $color: string }>`
   min-width: 362px;
   display: flex;
   flex-direction: column;
-  flex: 0 1;
+  flex: 0 1 auto;
   align-self: flex-start;
   padding: 20px;
   justify-content: space-between;
-  height: 100%;
+  height: auto;
 `;
 
 export const BoardCardNav = styled.div`

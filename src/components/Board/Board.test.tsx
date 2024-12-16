@@ -15,16 +15,16 @@ describe('Board tests', () => {
         {
           id: 0,
           title: 'Category 1',
-          spaceId: 0,
+          boardId: 0,
           cards: [],
         },
         {
           id: 1,
           title: 'Category 2',
-          spaceId: 0,
+          boardId: 0,
           cards: [],
         },
-      ]
+      ],
     };
 
     render(<Board board={board} />);

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { EStatuses, ICard } from '../../Card/Card.types';
+import { EPriority, EStatuses, ICard, ICardDTO } from '../../Card/Card.types';
 import Modal from '../Modal';
 import * as S from './ModalCard.styles';
 import * as C from '../../../styles/components';
@@ -8,8 +8,11 @@ import { boardsSelector } from '../../../store/slices/categories/boards.selector
 import { useEffect, useState } from 'react';
 import CardsUtils from '../../../utils/Cards/CardsUtils';
 import { useForm } from 'react-hook-form';
-import { updateCard } from '../../../store/slices/categories/boards.slice';
-import { setScreenStatus } from '../../../store/slices/screen/screen.slice';
+import { useTheme } from 'styled-components';
+import { EButtonType, EInputFieldTypes } from '../../../utils/DesignType.types';
+import { useScreenBlock } from '../../../context/ScreenHooks';
+import { updateCard } from '../../../store/thunks/boards.thunk';
+import { AppDispatch } from '../../../store';
 
 interface IProps {
   showModal: boolean;
@@ -22,11 +25,13 @@ interface ICardInput {
   desc: string;
   date: string;
   time: string;
+  priority?: EPriority | string;
 }
 
 export default function ModalCard({ showModal, setShowModal, card }: IProps) {
   const boards = useSelector(boardsSelector);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
+  const { setScreen } = useScreenBlock();
   const [title, setTitle] = useState<string>('');
   const [time, setTime] = useState<boolean>(
     card.deadlineInfo?.deadline_time ? false : true,
@@ -35,6 +40,7 @@ export default function ModalCard({ showModal, setShowModal, card }: IProps) {
     card.deadlineInfo?.deadline_date ? false : true,
   );
 
+  const theme = useTheme();
   const {
     register,
     handleSubmit,
@@ -52,8 +58,9 @@ export default function ModalCard({ showModal, setShowModal, card }: IProps) {
     },
     desc: {
       validate: {
-        trapSpacesForRequiredFields: (v: string) =>
-          !!v.trim() || 'White spaces not acceptable',
+        trapSpacesForRequiredFields: (v: string) => {
+          if (v !== '') return !!v.trim() || 'White spaces not acceptable';
+        },
       },
     },
     time: {
@@ -81,19 +88,27 @@ export default function ModalCard({ showModal, setShowModal, card }: IProps) {
         },
       },
     },
+    priority: {},
   };
 
   const onSaveChanges = (data: ICardInput) => {
-    const updatedCard: ICard = {
+    const updateThisCard = async(card : ICardDTO) => {
+      dispatch(updateCard({ card }));
+    }
+    const updatedCard: ICardDTO = {
       id: card.id,
-      spaceId: card.spaceId,
+      boardId: card.boardId,
       categoryId: card.categoryId,
-      badges: card.badges,
       title: data.title,
     };
+    if (data.priority !== '') {
+      updatedCard.priority = data.priority as EPriority;
+    }
     if (data.desc !== '') {
       updatedCard.desc = data.desc;
     }
+    updatedCard.deadline_date = data.date !== '' ? data.date : undefined;
+    updatedCard.deadline_time = data.time !== '' ? data.time : undefined;
     if (data.date !== undefined) {
       const todayDate = new Date();
       const currentDate = new Date(data.date);
@@ -102,24 +117,17 @@ export default function ModalCard({ showModal, setShowModal, card }: IProps) {
         currentDate.setHours(parseInt(hours), parseInt(mins));
         const status =
           todayDate >= currentDate ? EStatuses.Deadline : EStatuses.InProgress;
-        updatedCard.deadlineInfo = {
-          deadline_date: data.date,
-          status,
-          deadline_time: data.time,
-        };
+        updatedCard.status = status;
       } else {
         todayDate.setHours(0, 0, 0, 0);
         const status =
           todayDate >= currentDate ? EStatuses.Deadline : EStatuses.InProgress;
-        updatedCard.deadlineInfo = {
-          deadline_date: data.date,
-          status,
-        };
+          updatedCard.status = status;
       }
     }
-    dispatch(updateCard(updatedCard));
+    updateThisCard(updatedCard);
     document.body.style.overflow = 'scroll';
-    dispatch(setScreenStatus(false));
+    setScreen(false);
     setShowModal(false);
   };
 
@@ -133,7 +141,7 @@ export default function ModalCard({ showModal, setShowModal, card }: IProps) {
 
   useEffect(() => {
     if (boards !== undefined) {
-      const currentBoard = boards.find((el) => el.id === card.spaceId);
+      const currentBoard = boards.find((el) => el.id === card.boardId);
       if (currentBoard !== undefined) {
         setTitle(
           CardsUtils.findByParentIdCategory(
@@ -147,32 +155,37 @@ export default function ModalCard({ showModal, setShowModal, card }: IProps) {
 
   return (
     <Modal
+      title={`Edit Card: ${card.title}`}
       showModal={showModal}
       setShowModal={setShowModal}
     >
       <S.ModalForm onSubmit={handleSubmit(onSaveChanges)}>
         <S.ModalCardTitleInfo>
           <C.Text
-            $size={16}
+            $size={18}
             $weight={700}
+            $color={theme.colors.text_on_bright}
           >
             Title
           </C.Text>
-          <C.InputTitle
+          <C.InputField
             $size={16}
+            $type={EInputFieldTypes.onBright}
             defaultValue={card.title}
             placeholder='Enter title...'
             {...register('title', submitOptions.title)}
           />
           {errors.title && <C.Error>{errors.title.message}</C.Error>}
           <C.Text
-            $size={14}
+            $size={16}
             $weight={700}
+            $color={theme.colors.text_on_bright}
           >
             From category:{' '}
             <C.Text
-              $size={12}
+              $size={14}
               $weight={400}
+              $color={theme.colors.text_on_bright}
             >
               {title}
             </C.Text>
@@ -180,27 +193,47 @@ export default function ModalCard({ showModal, setShowModal, card }: IProps) {
         </S.ModalCardTitleInfo>
         <S.DescContainer>
           <C.Text
-            $size={14}
-            $weight={500}
+            $size={16}
+            $weight={700}
+            $color={theme.colors.text_on_bright}
           >
             Description:
           </C.Text>
-          <C.InputTitle
+          <C.InputField
             $size={12}
+            $type={EInputFieldTypes.onBright}
             defaultValue={card.desc}
             placeholder='Enter description...'
             {...register('desc', submitOptions.desc)}
           />
           {errors.desc && <C.Error>{errors.desc.message}</C.Error>}
         </S.DescContainer>
+        <S.PriorityContainer>
+          <C.Select
+            $type={EInputFieldTypes.onBright}
+            defaultValue={card.priority}
+            {...register('priority', submitOptions.priority)}
+          >
+            <C.Option value=''>No Priority</C.Option>
+            <C.Option value={EPriority.critical}>Critical</C.Option>
+            <C.Option value={EPriority.high}>High</C.Option>
+            <C.Option value={EPriority.medium}>Medium</C.Option>
+            <C.Option value={EPriority.low}>Low</C.Option>
+          </C.Select>
+        </S.PriorityContainer>
         <S.DataContainer>
           <S.InputDateTimeContainer>
-            <input
-              type='checkbox'
-              defaultChecked={!date}
-              onClick={onClickDate}
-            />
-            <input
+            <C.CheckboxContainer>
+              <C.Checkbox
+                type='checkbox'
+                defaultChecked={!date}
+                onClick={onClickDate}
+                id='1'
+              />
+              <C.CheckboxLabel htmlFor='1'>DEADLINE DATE</C.CheckboxLabel>
+            </C.CheckboxContainer>
+            <C.DateTimeField
+              $type={EInputFieldTypes.onBright}
               type='date'
               defaultValue={card.deadlineInfo?.deadline_date}
               {...register('date', submitOptions.date)}
@@ -208,12 +241,17 @@ export default function ModalCard({ showModal, setShowModal, card }: IProps) {
             {errors.date && <C.Error>{errors.date.message}</C.Error>}
           </S.InputDateTimeContainer>
           <S.InputDateTimeContainer>
-            <input
-              type='checkbox'
-              defaultChecked={!(date || time)}
-              onClick={onClickTime}
-            />
-            <input
+            <C.CheckboxContainer>
+              <C.Checkbox
+                type='checkbox'
+                defaultChecked={!(date || time)}
+                onClick={onClickTime}
+                id='2'
+              />
+              <C.CheckboxLabel htmlFor='2'>DEADLINE TIME</C.CheckboxLabel>
+            </C.CheckboxContainer>
+            <C.DateTimeField
+              $type={EInputFieldTypes.onBright}
               type='time'
               defaultValue={card.deadlineInfo?.deadline_time}
               {...register('time', submitOptions.time)}
@@ -221,7 +259,12 @@ export default function ModalCard({ showModal, setShowModal, card }: IProps) {
             {errors.time && <C.Error>{errors.time.message}</C.Error>}
           </S.InputDateTimeContainer>
         </S.DataContainer>
-        <C.SaveButton type='submit'>Save changes</C.SaveButton>
+        <C.Button
+          $type={EButtonType.add}
+          type='submit'
+        >
+          Save changes
+        </C.Button>
       </S.ModalForm>
     </Modal>
   );

@@ -9,8 +9,8 @@ describe('Cards tests', () => {
     const cardTestingObject: ICard = {
       id: 0,
       categoryId: 0,
-      spaceId: 0,
-      badges: [
+      boardId: 0,
+      priority: [
         {
           color: '#000000',
           text: 'Badge 1',
@@ -42,8 +42,8 @@ describe('Cards tests', () => {
     const cardTestingObject: ICard = {
       id: 0,
       categoryId: 0,
-      spaceId: 0,
-      badges: [
+      boardId: 0,
+      priority: [
         {
           color: '#000000',
           text: 'Badge 1',
@@ -70,8 +70,8 @@ describe('Cards tests', () => {
     const cardTestingObject: ICard = {
       id: 0,
       categoryId: 0,
-      spaceId: 0,
-      badges: [
+      boardId: 0,
+      priority: [
         {
           color: '#000000',
           text: 'Badge 1',
@@ -99,8 +99,8 @@ describe('Cards tests', () => {
     const cardTestingObject: ICard = {
       id: 0,
       categoryId: 0,
-      spaceId: 0,
-      badges: [],
+      boardId: 0,
+      priority: [],
       title: 'Card Title',
       deadlineInfo: {
         status: EStatuses.Completed,
@@ -122,8 +122,8 @@ describe('Cards tests', () => {
     const cardTestingObject: ICard = {
       id: 0,
       categoryId: 0,
-      spaceId: 0,
-      badges: [],
+      boardId: 0,
+      priority: [],
       title: 'Card Title',
       deadlineInfo: {
         status: EStatuses.Completed,
@@ -146,8 +146,8 @@ describe('Cards tests', () => {
     const cardTestingObject: ICard = {
       id: 0,
       categoryId: 0,
-      spaceId: 0,
-      badges: [],
+      boardId: 0,
+      priority: [],
       title: 'Card Title',
       deadlineInfo: {
         status: EStatuses.Deadline,
@@ -169,8 +169,8 @@ describe('Cards tests', () => {
     const cardTestingObject: ICard = {
       id: 0,
       categoryId: 0,
-      spaceId: 0,
-      badges: [],
+      boardId: 0,
+      priority: [],
       title: 'Card Title',
       deadlineInfo: {
         status: EStatuses.InProgress,
@@ -192,8 +192,8 @@ describe('Cards tests', () => {
     const cardTestingObject: ICard = {
       id: 0,
       categoryId: 0,
-      spaceId: 0,
-      badges: [],
+      boardId: 0,
+      priority: [],
       title: 'Card Title',
     };
     specifiedCardRender(

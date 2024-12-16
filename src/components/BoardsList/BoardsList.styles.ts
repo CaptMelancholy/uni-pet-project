@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import { Button } from '../../styles/components';
 
-export const SpaceContainer = styled.div`
+export const Container = styled.div`
   display: flex;
   gap: 16px;
-  padding-bottom: 16px;
+  padding: 16px;
   overflow-x: auto;
   overflow-y: hidden;
   scrollbar-width: thin;
@@ -12,6 +12,6 @@ export const SpaceContainer = styled.div`
 `;
 
 export const AddingButton = styled(Button)`
-    min-width: 362px;
-    height: 100%;
+  min-width: 362px;
+  height: 100%;
 `;

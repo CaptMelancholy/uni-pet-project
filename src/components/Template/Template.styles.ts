@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
 export const TemplateContainer = styled.div`
-    padding: 40px 0;
+    padding-top: 20px;
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 16px;
     flex: 1 1 auto;
     min-height: 0;
 `;

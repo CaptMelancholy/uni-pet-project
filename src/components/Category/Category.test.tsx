@@ -9,20 +9,20 @@ describe('Category tests', () => {
     const category: ICategory = {
       id: 0,
       title: 'Category title',
-      spaceId: 0,
+      boardId: 0,
       cards: [
         {
           id: 0,
           categoryId: 0,
-          spaceId: 0,
-          badges: [],
+          boardId: 0,
+          priority: [],
           title: 'Card 1',
         },
         {
           id: 1,
           categoryId: 0,
-          spaceId: 0,
-          badges: [],
+          boardId: 0,
+          priority: [],
           title: 'Card 2',
         },
       ],
@@ -39,7 +39,7 @@ describe('Category tests', () => {
     const category: ICategory = {
       id: 0,
       title: 'Empty Category Title',
-      spaceId: 0,
+      boardId: 0,
       cards: [],
     };
 
