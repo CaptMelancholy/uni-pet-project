@@ -9,6 +9,7 @@ import { AppDispatch } from '../store';
 import { useEffect } from 'react';
 import { useAuth } from '../context/AuthHooks';
 import { readBoards } from '../store/thunks/boards.thunk';
+import { PrivateRoute } from '../components/Routes/PrivateRoute';
 
 export default function BoardPage() {
   const { id } = useParams();
@@ -31,7 +32,8 @@ export default function BoardPage() {
     setBoard();
   }, [isAuth]);
   return (
-    <Template title={board ? board.title : 'Error'}>
+    <PrivateRoute>
+      <Template title={board ? board.title : 'Error'}>
       {board ? (
         <Board board={board} />
       ) : (
@@ -43,5 +45,6 @@ export default function BoardPage() {
         </Text>
       )}
     </Template>
+    </PrivateRoute>
   );
 }

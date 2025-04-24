@@ -40,6 +40,8 @@ export default createGlobalStyle`
 
     body {
         margin: 0;
+        background-color: ${({ theme }) => theme.colors.secondary};
+        min-height: 100%;
     }
 
     a {

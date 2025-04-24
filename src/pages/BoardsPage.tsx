@@ -7,6 +7,7 @@ import { AppDispatch } from '../store';
 import { useAuth } from '../context/AuthHooks';
 import { useEffect } from 'react';
 import { readBoards } from '../store/thunks/boards.thunk';
+import { PrivateRoute } from '../components/Routes/PrivateRoute';
 
 export default function BoardsPage() {
   const boards = useSelector(boardsSelector);
@@ -16,20 +17,22 @@ export default function BoardsPage() {
   useEffect(() => {
     const setBoard = async () => {
       dispatch(readBoards());
-    }
+    };
     setBoard();
-  }, [boards.length])
-  
+  }, [boards.length]);
+
   useEffect(() => {
     const setBoard = async () => {
       dispatch(readBoards());
-    }
+    };
     setBoard();
-  }, [isAuth])
+  }, [isAuth]);
 
   return (
-    <Template title='Boards'>
-      <BoardsList boards={boards} />
-    </Template>
+    <PrivateRoute>
+      <Template title='Boards'>
+        <BoardsList boards={boards} />
+      </Template>
+    </PrivateRoute>
   );
 }

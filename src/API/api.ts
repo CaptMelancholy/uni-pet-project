@@ -10,4 +10,9 @@ const API = axios.create({
     },
 });
 
+export const APIImage = axios.create({
+    baseURL: apiUrl,
+    withCredentials: true,
+});
+
 export default API;

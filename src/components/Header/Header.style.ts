@@ -40,3 +40,16 @@ export const LogoContainer = styled(Link)`
     height: auto;
   }
 `;
+
+export const AvatarLogoContainer = styled.div`
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+`;
+
+export const Avatar = styled.img`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+`;

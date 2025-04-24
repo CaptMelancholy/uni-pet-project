@@ -6,6 +6,7 @@ export interface ICard {
   title: string;
   desc?: string;
   deadlineInfo?: IDeadlineDateTime;
+  order: number;
 }
 
 export enum EPriority {
@@ -41,4 +42,5 @@ export interface ICardDTO {
   deadline_date?: string;
   status?: EStatuses;
   deadline_time?: string;
+  order: number;
 }

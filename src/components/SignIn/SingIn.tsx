@@ -1,14 +1,15 @@
 import { useForm } from 'react-hook-form';
 import * as C from '../../styles/components';
-import * as S from './NewSignIn.styles'
+import * as S from './NewSignIn.styles';
 import { EButtonType, EInputFieldTypes } from '../../utils/DesignType.types';
 import { useTheme } from 'styled-components';
 import { IUserSignIn } from './SignIn.types';
 import API from '../../API/api';
-import { generatePath, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import DefaultRoutes from '../../Routes/Routes';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthHooks';
+import { useState } from 'react';
 
 interface IUserInput {
   username: string;
@@ -20,29 +21,36 @@ export default function SingIn() {
     register,
     handleSubmit,
     reset,
+    setError,
+    clearErrors,
     formState: { errors },
   } = useForm<IUserInput>();
   const { setIsAuth, setAuthName } = useAuth();
+  const [isSuccess, setIsSuccess] = useState(false);
   const theme = useTheme();
   const navigate = useNavigate();
   const handleLogin = (data: IUserInput) => {
-    const signInUser = async (user : IUserSignIn) => {
+    const signInUser = async (user: IUserSignIn) => {
       try {
         const { data } = await API.post('login', user);
         navigate(DefaultRoutes.boards);
         setIsAuth(true);
         setAuthName(data.username);
+        setIsSuccess(true);
       } catch (error) {
+        setIsSuccess(false);
         if (axios.isAxiosError(error)) {
-          console.log(error.status);
-          const path = generatePath(DefaultRoutes.error, { code: error.response?.status });
-          navigate(path, {
-            state: { message: error.response?.data.error },
+          const message = error.response?.data.error || 'Internal Server Error';
+          setError('root.serverError', {
+            type: 'server',
+            message,
           });
         } else {
           console.error(error);
-          const path = generatePath(DefaultRoutes.error, { code: error });
-          navigate(path);
+          setError('root.serverError', {
+            type: 'server',
+            message: 'Unknown error. Contact developer',
+          });
         }
       }
     };
@@ -52,6 +60,7 @@ export default function SingIn() {
     };
     signInUser(payload);
     reset();
+    clearErrors('root.serverError');
   };
 
   const registerOptions = {
@@ -104,12 +113,20 @@ export default function SingIn() {
           {errors.password && <C.Error>{errors.password.message}</C.Error>}
         </C.InputFormContainer>
       </S.InputFields>
-      <S.AuthButton
-        $type={EButtonType.empty}
-        type='submit'
-      >
-        SIGN IN
-      </S.AuthButton>
+      <C.InputFormContainer>
+        <S.AuthButton
+          $type={EButtonType.empty}
+          type='submit'
+        >
+          SIGN IN
+        </S.AuthButton>
+        {errors.root?.serverError && (
+          <C.Error>{errors.root.serverError.message}</C.Error>
+        )}
+        {isSuccess && (
+          <C.SuccessLabel>You changed password successfully</C.SuccessLabel>
+        )}
+      </C.InputFormContainer>
     </S.Form>
   );
 }

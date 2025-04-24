@@ -4,10 +4,9 @@ import * as S from './SignUp.styles';
 import { useTheme } from 'styled-components';
 import { EButtonType, EInputFieldTypes } from '../../utils/DesignType.types';
 import API from '../../API/api';
-import { generatePath, useNavigate } from 'react-router-dom';
 import { IUserSignUp } from './SignUp.types';
-import DefaultRoutes from '../../Routes/Routes';
 import axios from 'axios';
+import { useState } from 'react';
 
 interface IUserInput {
   username: string;
@@ -17,35 +16,40 @@ interface IUserInput {
 }
 
 export default function SingUp() {
-  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     watch,
     reset,
+    setError,
+    clearErrors,
     formState: { errors },
   } = useForm<IUserInput>();
+  const [isSuccess, setIsSuccess] = useState(false);
   const theme = useTheme();
   const handleRegistration = (data: IUserInput) => {
-    const registerUser = async (user : IUserSignUp) => {
+    const registerUser = async (user: IUserSignUp) => {
       try {
         await API.post('register', user);
-        navigate(DefaultRoutes.success);
+        setIsSuccess(true);
       } catch (error) {
+        setIsSuccess(false);
         if (axios.isAxiosError(error)) {
-          console.log(error.status);
-          const path = generatePath(DefaultRoutes.error, { code: error.response?.status });
-          navigate(path, {
-            state: { message: error.response?.data.error },
+          const message = error.response?.data.error || 'Internal Server Error';
+          setError('root.serverError', {
+            type: 'server',
+            message,
           });
         } else {
           console.error(error);
-          const path = generatePath(DefaultRoutes.error, { code: error });
-          navigate(path);
+          setError('root.serverError', {
+            type: 'server',
+            message: 'Unknown error. Contact developer',
+          });
         }
       }
     };
-    
+
     const payload: IUserSignUp = {
       username: data.username,
       email: data.email,
@@ -54,6 +58,7 @@ export default function SingUp() {
     };
     registerUser(payload);
     reset();
+    clearErrors('root.serverError');
   };
 
   const registerOptions = {
@@ -170,12 +175,20 @@ export default function SingUp() {
           )}
         </C.InputFormContainer>
       </S.InputFields>
-      <S.AuthButton
-        $type={EButtonType.empty}
-        type='submit'
-      >
-        SIGN UP
-      </S.AuthButton>
+      <C.InputFormContainer>
+        <S.AuthButton
+          $type={EButtonType.empty}
+          type='submit'
+        >
+          SIGN UP
+        </S.AuthButton>
+        {errors.root?.serverError && (
+          <C.Error>{errors.root.serverError.message}</C.Error>
+        )}
+        {isSuccess && (
+          <C.SuccessLabel>You changed password successfully</C.SuccessLabel>
+        )}
+      </C.InputFormContainer>
     </S.Form>
   );
 }

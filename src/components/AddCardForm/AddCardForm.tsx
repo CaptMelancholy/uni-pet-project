@@ -81,6 +81,7 @@ export default function AddCardForm({
       categoryId: categoryId,
       boardId: spaceId,
       title: data.title,
+      order: 0,
     }
     dto.desc = data.desc !== '' ? data.desc : undefined;
     dto.priority = data.priority !== '' ? (data.priority as EPriority) : undefined;

@@ -18,3 +18,10 @@ export const BoardContainer = styled.div`
 export const ButtonOnField = styled(Button)`
   min-width: 425px;
 `;
+
+export const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+`;

@@ -1,14 +1,29 @@
 import { generatePath } from 'react-router-dom';
 import * as S from './Header.style';
 import * as C from '../../styles/components';
-import { FaCircleUser, FaComment, FaDoorOpen } from 'react-icons/fa6';
+import { FaComment, FaDoorOpen } from 'react-icons/fa6';
 import DefaultRoutes from '../../Routes/Routes';
 import { useTheme } from 'styled-components';
 import { useAuth } from '../../context/AuthHooks';
+import { useEffect, useState } from 'react';
+import API from '../../API/api';
+
+const DEFAULT_AVATAR = '/default.jpg';
 
 export default function Header() {
   const theme = useTheme();
   const { isAuth, authName } = useAuth();
+  const [avatarUrl, setAvatarUrl] = useState<string>(DEFAULT_AVATAR);
+  useEffect(() => {
+    API.get(`avatar/me`, { responseType: 'blob' })
+      .then((res) => {
+        const url = URL.createObjectURL(res.data);
+        setAvatarUrl(url);
+      })
+      .catch(() => {
+        setAvatarUrl(DEFAULT_AVATAR);
+      });
+  }, [authName]);
   return (
     <S.Header>
       <S.LogoContainer to={generatePath(DefaultRoutes.default)}>
@@ -25,24 +40,36 @@ export default function Header() {
         </svg>
       </S.LogoContainer>
       <S.Nav>
-        {isAuth && (
-          <C.Text
-            $weight={700}
-            $size={16}
-            $color={theme.colors.text_on_bright}
-          >
-            Hello, {authName}
-          </C.Text>
+        {isAuth ? (
+          <>
+            <C.Text
+              $weight={700}
+              $size={16}
+              $color={theme.colors.text_on_bright}
+            >
+              Hello, {authName}
+            </C.Text>
+            <S.LogoContainer to={generatePath(DefaultRoutes.account)}>
+              <S.AvatarLogoContainer>
+                <S.Avatar
+                  src={avatarUrl}
+                  alt='Avatar'
+                />
+              </S.AvatarLogoContainer>
+            </S.LogoContainer>
+            <S.LogoContainer to={generatePath(DefaultRoutes.logout)}>
+              <FaDoorOpen />
+            </S.LogoContainer>
+          </>
+        ) : (
+          <>
+            <S.LogoContainer to={generatePath(DefaultRoutes.auth)}>
+              <FaComment />
+            </S.LogoContainer>
+          </>
         )}
-        <S.LogoContainer to={generatePath(DefaultRoutes.auth)}>
-          <FaComment />
-        </S.LogoContainer>
-        {/* <S.LogoContainer to={generatePath(DefaultRoutes.account)}>
-          <FaCircleUser />
-        </S.LogoContainer> */}
-        <S.LogoContainer to={generatePath(DefaultRoutes.logout)}>
-          <FaDoorOpen />
-        </S.LogoContainer>
+
+        {/*  */}
       </S.Nav>
     </S.Header>
   );

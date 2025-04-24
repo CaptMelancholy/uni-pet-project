@@ -1,10 +1,13 @@
 import AuthTemplate from '../components/AuthorizationTemplate/AuthTemplate';
+import { AuthRoute } from '../components/Routes/AuthRoute';
 import Template from '../components/Template/Template';
 
 export default function JoinPage() {
   return (
-    <Template title='JOIN or YOU ALREADY?'>
+    <AuthRoute>
+      <Template title='JOIN or YOU ALREADY?'>
         <AuthTemplate />
-    </Template>
-  )
+      </Template>
+    </AuthRoute>
+  );
 }

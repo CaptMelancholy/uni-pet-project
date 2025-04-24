@@ -1,10 +1,13 @@
-import Template from '../components/Template/Template'
-import Info from '../components/InformationUnits/Info'
+import Template from '../components/Template/Template';
+import Info from '../components/InformationUnits/Info';
+import { AuthRoute } from '../components/Routes/AuthRoute';
 
 export default function SuccessPage() {
   return (
-    <Template title='Success!'>
+    <AuthRoute>
+      <Template title='Success!'>
         <Info />
-    </Template>
-  )
+      </Template>
+    </AuthRoute>
+  );
 }

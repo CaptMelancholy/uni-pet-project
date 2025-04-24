@@ -9,6 +9,7 @@ import {
   pushBoard,
   pushCard,
   pushCategory,
+  putAllCards,
   putBoard,
   putCard,
   putCategory,
@@ -122,6 +123,18 @@ export const updateCard = createAsyncThunk<void, { card: ICardDTO }>(
     try {
       const { data } = await API.put(`cards/${card.id}`, card);
       dispatch(putCard(data.card));
+    } catch (e) {
+      rejectWithValue(e);
+    }
+  },
+);
+
+export const updateAllCards = createAsyncThunk<void, {cards : Array<ICardDTO>}>(
+  'cards/all/put',
+  async ({ cards }, {dispatch, rejectWithValue}) => {
+    try {
+      const { data } = await API.put(`cards/reorder`, cards);
+      dispatch(putAllCards(data.cards));
     } catch (e) {
       rejectWithValue(e);
     }

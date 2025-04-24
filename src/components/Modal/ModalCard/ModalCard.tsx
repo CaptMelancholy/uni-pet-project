@@ -100,6 +100,7 @@ export default function ModalCard({ showModal, setShowModal, card }: IProps) {
       boardId: card.boardId,
       categoryId: card.categoryId,
       title: data.title,
+      order: card.order,
     };
     if (data.priority !== '') {
       updatedCard.priority = data.priority as EPriority;

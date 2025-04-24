@@ -14,6 +14,9 @@ import { AuthProvider } from './context/AuthContext';
 import LogoutPage from './pages/LogoutPage';
 import { UpdateProvider } from './context/UpdateContext';
 import InvitePage from './pages/InvitePage';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import AccountPage from './pages/AccountPage';
+import UserPage from './pages/UserPage';
 
 function App() {
   return (
@@ -48,6 +51,14 @@ function App() {
                     element={<BoardsPage />}
                   />
                   <Route
+                    path={DefaultRoutes.account}
+                    element={<AccountPage />}
+                  />
+                  <Route
+                    path={DefaultRoutes.u}
+                    element={<UserPage />}
+                  />
+                  <Route
                     path={DefaultRoutes.success}
                     element={<SuccessPage />}
                   />
@@ -55,6 +66,7 @@ function App() {
                     path={DefaultRoutes.board}
                     element={<BoardPage />}
                   />
+                  
                   <Route
                     path={DefaultRoutes.auth}
                     element={<JoinPage />}

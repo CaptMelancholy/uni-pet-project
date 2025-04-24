@@ -91,11 +91,11 @@ export default function Category({ category }: IProps) {
                 ref={provided.innerRef}
               >
                 {category.cards.length !== 0 &&
-                  category.cards.map((card, index) => (
+                  [...category.cards].sort((a, b) => a.order > b.order ? 1 : -1).map((card) => (
                     <Card
                       key={card.id.toString()}
                       card={card}
-                      index={index}
+                      index={card.order}
                     />
                   ))}
               </S.CardsList>

@@ -118,7 +118,27 @@ const categoriesSlice = createSlice({
         }
         return board;
       });
-    }
+    },
+    putAllCards: (state, action: { payload: Array<ICard> }) => {
+      const boardId = action.payload[0].boardId;
+      const updatedCards = action.payload;
+      const board = state.boards.find((b) => b.id === boardId);
+      if(!board) return;
+
+      const cardsByCategory: Record<number, ICard[]> = {};
+      updatedCards.forEach((card) => {
+        if (!cardsByCategory[card.categoryId]) {
+          cardsByCategory[card.categoryId] = [];
+        }
+        cardsByCategory[card.categoryId].push(card);
+      });
+
+      board.categories.forEach((category) => {
+        if (cardsByCategory[category.id]) {
+          category.cards = cardsByCategory[category.id].sort((a, b) => a.order - b.order);
+        }
+      });
+    },
   },
 });
 
@@ -133,6 +153,7 @@ export const {
   popCard,
   popCategory,
   putCard,
+  putAllCards
 } = categoriesSlice.actions;
 
 export default categoriesSlice.reducer;

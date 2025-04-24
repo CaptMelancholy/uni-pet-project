@@ -10,8 +10,7 @@ import { EButtonType, EInputFieldTypes } from '../../../utils/DesignType.types';
 import { AppDispatch } from '../../../store';
 import { updateBoard } from '../../../store/thunks/boards.thunk';
 import { useUpdate } from '../../../context/UpdateHooks';
-import { apiUrl } from '../../../API/api';
-import { useLocation } from 'react-router-dom';
+import ModalBoardCreateLinks from './ModalBoardCreateLinks/ModalBoardCreateLinks';
 
 interface IProps {
   showModal: boolean;
@@ -133,6 +132,10 @@ export default function ModalBoard({ showModal, setShowModal, board }: IProps) {
           Save changes
         </C.Button>
       </S.ModalForm>
+      <S.ModalLinkContainer>
+        <S.FieldText $size={24} $weight={600}>LINKS</S.FieldText>
+        <ModalBoardCreateLinks id={board.id} />
+      </S.ModalLinkContainer>
     </Modal>
   );
 }

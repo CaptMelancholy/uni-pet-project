@@ -16,6 +16,63 @@ export const InputFormContainer = styled.div`
   width: 100%;
 `;
 
+export const InputTextarea = styled.textarea<{
+  $size: number;
+  $type: EInputFieldTypes;
+}>`
+  width: 100%;
+  border-radius: 10px;
+  border: 2px solid
+    ${({ theme, $type }) =>
+      $type == EInputFieldTypes.onDark
+        ? theme.colors.secondary
+        : theme.colors.primary};
+  background-color: ${({ theme, $type }) =>
+    $type == EInputFieldTypes.onDark
+      ? theme.colors.primary
+      : theme.colors.secondary};
+  transition: 0.3s ease-in-out;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: inherit;
+  padding: 10px 15px;
+  color: ${({ theme }) => theme.colors.text_on_bright};
+  &::placeholder {
+    font-family: inherit;
+    opacity: 0.5;
+    color: ${({ theme }) => theme.colors.text_on_bright};
+  }
+  &:focus {
+    background-color: ${({ theme, $type }) =>
+      $type == EInputFieldTypes.onDark
+        ? theme.colors.secondary
+        : theme.colors.primary};
+  }
+`;
+
+export const TextField = styled.div<{
+  $size: number;
+  $type: EInputFieldTypes;
+}>`
+  width: 100%;
+  border-radius: 10px;
+  border: 2px solid
+    ${({ theme, $type }) =>
+      $type == EInputFieldTypes.onDark
+        ? theme.colors.secondary
+        : theme.colors.primary};
+  background-color: ${({ theme, $type }) =>
+    $type == EInputFieldTypes.onDark
+      ? theme.colors.primary
+      : theme.colors.secondary};
+  transition: 0.3s ease-in-out;
+  font-size: ${({ $size }) => `${$size}px`};
+  font-weight: 400;
+  font-family: inherit;
+  padding: 10px 15px;
+  color: ${({ theme }) => theme.colors.text_on_bright};
+`;
+
 export const InputField = styled.input<{
   $size: number;
   $type: EInputFieldTypes;
@@ -144,6 +201,10 @@ export const Error = styled.label`
   color: ${({ theme }) => theme.colors.red};
 `;
 
+export const SuccessLabel = styled(Error)`
+  color: ${({ theme }) => theme.colors.green};
+`;
+
 export const Button = styled.button<{ $type: EButtonType }>`
   border-radius: 10px;
   padding: 10px;
@@ -152,9 +213,7 @@ export const Button = styled.button<{ $type: EButtonType }>`
   text-align: center;
   flex: 0 1;
   align-self: ${({ $type }) =>
-    $type == EButtonType.add
-      ? 'normal'
-      : 'flex-start'};;
+    $type == EButtonType.add ? 'normal' : 'flex-start'};
   font-size: 16px;
   color: ${({ theme, $type }) =>
     $type == EButtonType.add
@@ -238,10 +297,10 @@ export const Select = styled.select<{ $type: EInputFieldTypes }>`
   }
   & > option {
     border: 2px solid
-    ${({ theme, $type }) =>
-      $type == EInputFieldTypes.onDark
-        ? theme.colors.secondary
-        : theme.colors.primary};
+      ${({ theme, $type }) =>
+        $type == EInputFieldTypes.onDark
+          ? theme.colors.secondary
+          : theme.colors.primary};
   }
 `;
 
