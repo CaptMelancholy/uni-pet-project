@@ -92,9 +92,9 @@ export default function ModalCard({ showModal, setShowModal, card }: IProps) {
   };
 
   const onSaveChanges = (data: ICardInput) => {
-    const updateThisCard = async(card : ICardDTO) => {
+    const updateThisCard = async (card: ICardDTO) => {
       dispatch(updateCard({ card }));
-    }
+    };
     const updatedCard: ICardDTO = {
       id: card.id,
       boardId: card.boardId,
@@ -123,7 +123,7 @@ export default function ModalCard({ showModal, setShowModal, card }: IProps) {
         todayDate.setHours(0, 0, 0, 0);
         const status =
           todayDate >= currentDate ? EStatuses.Deadline : EStatuses.InProgress;
-          updatedCard.status = status;
+        updatedCard.status = status;
       }
     }
     updateThisCard(updatedCard);
@@ -192,36 +192,46 @@ export default function ModalCard({ showModal, setShowModal, card }: IProps) {
             </C.Text>
           </C.Text>
         </S.ModalCardTitleInfo>
-        <S.DescContainer>
-          <C.Text
-            $size={16}
-            $weight={700}
-            $color={theme.colors.text_on_bright}
-          >
-            Description:
-          </C.Text>
-          <C.InputField
-            $size={12}
-            $type={EInputFieldTypes.onBright}
-            defaultValue={card.desc}
-            placeholder='Enter description...'
-            {...register('desc', submitOptions.desc)}
-          />
-          {errors.desc && <C.Error>{errors.desc.message}</C.Error>}
-        </S.DescContainer>
-        <S.PriorityContainer>
-          <C.Select
-            $type={EInputFieldTypes.onBright}
-            defaultValue={card.priority}
-            {...register('priority', submitOptions.priority)}
-          >
-            <C.Option value=''>No Priority</C.Option>
-            <C.Option value={EPriority.critical}>Critical</C.Option>
-            <C.Option value={EPriority.high}>High</C.Option>
-            <C.Option value={EPriority.medium}>Medium</C.Option>
-            <C.Option value={EPriority.low}>Low</C.Option>
-          </C.Select>
-        </S.PriorityContainer>
+        <S.PriorityDescWrapper>
+          <S.DescContainer>
+            <C.Text
+              $size={16}
+              $weight={700}
+              $color={theme.colors.text_on_bright}
+            >
+              Description:
+            </C.Text>
+            <C.InputField
+              $size={12}
+              $type={EInputFieldTypes.onBright}
+              defaultValue={card.desc}
+              placeholder='Enter description...'
+              {...register('desc', submitOptions.desc)}
+            />
+            {errors.desc && <C.Error>{errors.desc.message}</C.Error>}
+          </S.DescContainer>
+          
+          <S.PriorityContainer>
+            <C.Text
+              $size={16}
+              $weight={700}
+              $color={theme.colors.text_on_bright}
+            >
+              Priority:
+            </C.Text>
+            <C.Select
+              $type={EInputFieldTypes.onBright}
+              defaultValue={card.priority}
+              {...register('priority', submitOptions.priority)}
+            >
+              <C.Option value=''>No Priority</C.Option>
+              <C.Option value={EPriority.critical}>Critical</C.Option>
+              <C.Option value={EPriority.high}>High</C.Option>
+              <C.Option value={EPriority.medium}>Medium</C.Option>
+              <C.Option value={EPriority.low}>Low</C.Option>
+            </C.Select>
+          </S.PriorityContainer>
+        </S.PriorityDescWrapper>
         <S.DataContainer>
           <S.InputDateTimeContainer>
             <C.CheckboxContainer>

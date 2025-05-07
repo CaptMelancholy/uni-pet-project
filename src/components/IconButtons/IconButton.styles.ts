@@ -13,6 +13,7 @@ export const CrossContainer = styled.button<{ $size : number, $type : EType }>`
         case(EType.close):
         case(EType.delete):
           return theme.colors.red;
+        case(EType.custom):
         case(EType.edit):
           return theme.colors.blue;
       }

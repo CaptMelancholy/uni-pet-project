@@ -11,6 +11,7 @@ import { AppDispatch } from '../../../store';
 import { updateBoard } from '../../../store/thunks/boards.thunk';
 import { useUpdate } from '../../../context/UpdateHooks';
 import ModalBoardCreateLinks from './ModalBoardCreateLinks/ModalBoardCreateLinks';
+import ModalBoardLinks from './ModalBoardLinks/ModalBoardLinks';
 
 interface IProps {
   showModal: boolean;
@@ -117,13 +118,7 @@ export default function ModalBoard({ showModal, setShowModal, board }: IProps) {
           >
             Invite Link
           </C.Text>
-          <C.Text
-            $size={14}
-            $weight={400}
-            $color={theme.colors.text_on_bright}
-          >
-            {`${window.location.origin}/invite/${board.invite_link}`}
-          </C.Text>
+          <ModalBoardLinks id={board.id} />
         </S.ModalContentContainer>
         <C.Button
           $type={EButtonType.add}
@@ -134,7 +129,7 @@ export default function ModalBoard({ showModal, setShowModal, board }: IProps) {
       </S.ModalForm>
       <S.ModalLinkContainer>
         <S.FieldText $size={24} $weight={600}>LINKS</S.FieldText>
-        <ModalBoardCreateLinks id={board.id} />
+        <ModalBoardCreateLinks id={board.id} title={board.title} />
       </S.ModalLinkContainer>
     </Modal>
   );

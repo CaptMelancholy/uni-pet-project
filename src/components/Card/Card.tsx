@@ -11,6 +11,7 @@ import { Draggable } from 'react-beautiful-dnd';
 import { useScreenBlock } from '../../context/ScreenHooks';
 import { AppDispatch } from '../../store';
 import { deleteCard, updateCard } from '../../store/thunks/boards.thunk';
+import ModalCardFunctions from '../Modal/ModalCardFunctions/ModalCardFunctions';
 
 interface IProps {
   card: ICard;
@@ -19,23 +20,29 @@ interface IProps {
 
 export default function Card({ index, card }: IProps) {
   const [showModal, setShowModal] = useState(false);
+  const [showModalFunctions, setShowModalFunctions] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const { setScreen } = useScreenBlock();
+  const handleFuncCardClick = () => {
+    setShowModalFunctions(true);
+    setScreen(true);
+    document.body.style.overflow = 'hidden';
+  };
   const handleEditCardClick = () => {
     setShowModal(true);
     setScreen(true);
     document.body.style.overflow = 'hidden';
   };
   const handleOnDelete = () => {
-    const deleteThisCard = async(card : ICard) => {
+    const deleteThisCard = async (card: ICard) => {
       dispatch(deleteCard({ card }));
-    }
+    };
     deleteThisCard(card);
   };
   const handleCheckDeadlineClick = () => {
-    const updateThisCard = async(card : ICardDTO) => {
+    const updateThisCard = async (card: ICardDTO) => {
       dispatch(updateCard({ card }));
-    }
+    };
     const updatedCard: ICardDTO = {
       id: card.id,
       categoryId: card.categoryId,
@@ -43,6 +50,7 @@ export default function Card({ index, card }: IProps) {
       priority: card.priority,
       title: card.title,
       desc: card.desc,
+      order: card.order,
       status: CardsUtils.chooseStatus(
         card.deadlineInfo!.status,
         card.deadlineInfo!.deadline_date,
@@ -58,6 +66,11 @@ export default function Card({ index, card }: IProps) {
       <ModalCard
         showModal={showModal}
         setShowModal={setShowModal}
+        card={card}
+      />
+      <ModalCardFunctions
+        showModal={showModalFunctions}
+        setShowModal={setShowModalFunctions}
         card={card}
       />
       <Draggable
@@ -121,6 +134,11 @@ export default function Card({ index, card }: IProps) {
                 $size={14}
                 buttonType={EType.delete}
                 onActionDoNext={handleOnDelete}
+              />
+              <IconButton
+                $size={14}
+                buttonType={EType.custom}
+                onActionDoNext={handleFuncCardClick}
               />
             </S.CardNavButtons>
           </S.CardContainer>

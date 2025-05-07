@@ -5,6 +5,7 @@ import {
   EInputFieldTypes,
 } from '../../../../utils/DesignType.types';
 import { useForm } from 'react-hook-form';
+import API from '../../../../API/api';
 
 interface IInputData {
   userLimit: string;
@@ -15,15 +16,17 @@ interface IInputData {
 
 interface IProps {
   id: number;
+  title: string;
 }
 
-export interface ILink {
+export interface ILinkData {
   boardId: number;
   userLimit: number;
+  title: string;
   timeLimit: Date;
 }
 
-export default function ModalBoardCreateLinks({ id }: IProps) {
+export default function ModalBoardCreateLinks({ id, title }: IProps) {
   const {
     register,
     handleSubmit,
@@ -55,6 +58,10 @@ export default function ModalBoardCreateLinks({ id }: IProps) {
 
       return resultDate;
     }
+
+    const createLink = async (link : ILinkData) => {
+      await API.post('links', link);
+    }
     const users =
       data.userLimit !== '-1' ? Number(data.userLimit) : data.userLimitCustom;
     const date =
@@ -62,12 +69,13 @@ export default function ModalBoardCreateLinks({ id }: IProps) {
         ? addDaysToCurrentDate(Number(data.timeLimitDays))
         : combineDateWithCurrentLocalTime(new Date(data.customDateTime!));
     if (users !== undefined && date !== undefined) {
-      const linkToCreate: ILink = {
+      const linkToCreate: ILinkData = {
         boardId: id,
         userLimit: users,
+        title: title,
         timeLimit: date,
       };
-      console.log(linkToCreate);
+      createLink(linkToCreate);
     }
   };
 

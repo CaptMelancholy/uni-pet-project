@@ -1,6 +1,7 @@
 import { CrossContainer } from './IconButton.styles';
-import { FaPen, FaRegTrashCan, FaX } from 'react-icons/fa6';
+import { FaPen, FaRegTrashCan, FaX, FaBook } from 'react-icons/fa6';
 import { EType } from './IconButton.types';
+
 
 interface IProps {
   onActionDoNext: () => void;
@@ -21,6 +22,8 @@ export default function IconButton({
         return <FaRegTrashCan />;
       case EType.edit:
         return <FaPen />;
+      case EType.custom:
+        return <FaBook />;
     }
   };
   return (
