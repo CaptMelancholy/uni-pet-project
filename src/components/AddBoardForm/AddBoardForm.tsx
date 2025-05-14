@@ -112,7 +112,6 @@ export default function AddBoardForm({ setShowAddBoard }: IProps) {
           {...register('desc', submitOptions.desc)}
         />
         {errors.desc && <C.Error>{errors.desc.message}</C.Error>}
-        {/* */}
       </S.InputContainer>
       <C.Button
         type='submit'

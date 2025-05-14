@@ -7,7 +7,7 @@ import {
 import ModalCardTask, { ISubtask } from './ModalCardTask/ModalCardTask';
 import * as S from './ModalCardTasks.styles';
 import API from '../../../../API/api';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 interface ISubtaskInput {
   text: string;
@@ -15,15 +15,22 @@ interface ISubtaskInput {
 
 interface IProps {
   cardId: number;
+  subTasks: Array<ISubtask> | undefined;
+  fetchSubtasks: () => Promise<void>;
 }
 
-export default function ModalCardTasks({ cardId }: IProps) {
+export default function ModalCardTasks({
+  cardId,
+  subTasks,
+  fetchSubtasks,
+}: IProps) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<ISubtaskInput>();
-  const [subTasks, setSubTasks] = useState<Array<ISubtask>>([]);
+
   const submitOptions = {
     text: {
       required: 'Title is required',
@@ -33,15 +40,6 @@ export default function ModalCardTasks({ cardId }: IProps) {
       },
     },
   };
-
-  const fetchSubtasks = useCallback(async () => {
-    try {
-      const { data } = await API.get(`subtasks/${cardId}`);
-      setSubTasks(data);
-    } catch (error) {
-      console.error('Ошибка получения доступных пользователей:', error);
-    }
-  }, [cardId]);
 
   const handleSubmitAddSubtask = (data: ISubtaskInput) => {
     const addThisSubtask = async (subtask: ISubtask) => {
@@ -61,13 +59,12 @@ export default function ModalCardTasks({ cardId }: IProps) {
     };
 
     addThisSubtask(subtask);
+    reset();
   };
-
- 
 
   useEffect(() => {
     fetchSubtasks();
-  }, [fetchSubtasks])
+  }, [fetchSubtasks]);
 
   return (
     <S.SubtaskContainer>
@@ -87,9 +84,15 @@ export default function ModalCardTasks({ cardId }: IProps) {
       </S.SubtaskForm>
       {errors.text && <C.Error>{errors.text.message}</C.Error>}
       <S.SubtaskList>
-        {subTasks.map((task) => (
-          <ModalCardTask subtask={task} fetchSubtasks={fetchSubtasks} />
-        ))}
+        {subTasks !== undefined &&
+          subTasks.length !== 0 &&
+          subTasks.map((task) => (
+            <ModalCardTask
+              key={task.id}
+              subtask={task}
+              fetchSubtasks={fetchSubtasks}
+            />
+          ))}
       </S.SubtaskList>
     </S.SubtaskContainer>
   );

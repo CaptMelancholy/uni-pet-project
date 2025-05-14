@@ -13,6 +13,7 @@ import { EButtonType, EInputFieldTypes } from '../../../utils/DesignType.types';
 import { useScreenBlock } from '../../../context/ScreenHooks';
 import { updateCard } from '../../../store/thunks/boards.thunk';
 import { AppDispatch } from '../../../store';
+import IBoard from '../../Board/Board.types';
 
 interface IProps {
   showModal: boolean;
@@ -142,7 +143,7 @@ export default function ModalCard({ showModal, setShowModal, card }: IProps) {
 
   useEffect(() => {
     if (boards !== undefined) {
-      const currentBoard = boards.find((el) => el.id === card.boardId);
+      const currentBoard = boards.find((el : IBoard) => el.id === card.boardId);
       if (currentBoard !== undefined) {
         setTitle(
           CardsUtils.findByParentIdCategory(

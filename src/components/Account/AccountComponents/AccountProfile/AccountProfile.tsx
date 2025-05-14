@@ -5,7 +5,7 @@ import {
   EInputFieldTypes,
 } from '../../../../utils/DesignType.types';
 import { useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import API from '../../../../API/api';
 
@@ -51,8 +51,9 @@ export default function AccountProfile() {
   const handleUpdateInfo = (data: IAboutInput) => {
     const updateInfo = async (data: IAboutInput) => {
       try {
-        await API.post('update-profile', data);
+        await API.put('profile/users/profile', data);
         setIsSuccess(true);
+        await fetchUserProfile();
       } catch (error) {
         setIsSuccess(false);
         if (axios.isAxiosError(error)) {
@@ -77,39 +78,39 @@ export default function AccountProfile() {
       profession: data.profession === '' ? undefined : data.profession?.trim(),
     };
     updateInfo(cleanedData);
+    
     reset();
     clearErrors('root.serverError');
   };
-
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const response = await API.get('user-profile');
-        const data: IAboutInput = {
-          about: response.data.about,
-          location: response.data.location,
-          realname: response.data?.realname,
-          profession: response.data.profession,
-        };
-        setDefaultInfo(data);
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          const message = error.response?.data.error || 'Internal Server Error';
-          setError('root.serverError', {
-            type: 'server',
-            message,
-          });
-        } else {
-          console.error(error);
-          setError('root.serverError', {
-            type: 'server',
-            message: 'Unknown error. Contact developer',
-          });
-        }
+  const fetchUserProfile = useCallback(async () => {
+    try {
+      const response = await API.get('profile/personal/profile');
+      const data: IAboutInput = {
+        about: response.data.about,
+        location: response.data.location,
+        realname: response.data?.realname,
+        profession: response.data.profession,
+      };
+      setDefaultInfo(data);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const message = error.response?.data.error || 'Internal Server Error';
+        setError('root.serverError', {
+          type: 'server',
+          message,
+        });
+      } else {
+        console.error(error);
+        setError('root.serverError', {
+          type: 'server',
+          message: 'Unknown error. Contact developer',
+        });
       }
-    };
+    }
+  }, [])
+  useEffect(() => {
     fetchUserProfile();
-  }, []);
+  }, [fetchUserProfile]);
   return (
     <S.ProfileFormContainer onSubmit={handleSubmit(handleUpdateInfo)}>
       <S.TopBlock>
@@ -187,7 +188,7 @@ export default function AccountProfile() {
           <C.Error>{errors.root.serverError.message}</C.Error>
         )}
         {isSuccess && (
-          <C.SuccessLabel>You changed password successfully</C.SuccessLabel>
+          <C.SuccessLabel>You successfully update information</C.SuccessLabel>
         )}
       </S.BottomBlock>
     </S.ProfileFormContainer>

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import * as S from './ModalBoardLinks.styles';
 import * as C from '../../../../styles/components';
 import API from '../../../../API/api';
@@ -15,20 +15,12 @@ export interface ILink {
 }
 
 export interface IProps {
-  id: number;
+  fetchLinks: () => Promise<void>;
+  links: Array<ILink>;
 }
 
-export default function ModalBoardLinks({ id }: IProps) {
-  const [links, setLinks] = useState<Array<ILink>>([]);
+export default function ModalBoardLinks({ fetchLinks, links }: IProps) {
   const theme = useTheme();
-  const fetchLinks = useCallback(async () => {
-    try {
-      const { data } = await API.get(`links/${id}`);
-      setLinks(data.links);
-    } catch (error) {
-      console.error('Ошибка при получении ссылок:', error);
-    }
-  }, [id]);
 
   useEffect(() => {
     fetchLinks();
@@ -44,7 +36,7 @@ export default function ModalBoardLinks({ id }: IProps) {
   const deleteLink = async (linkText: string) => {
     try {
       await API.delete(`links/${linkText}`);
-      fetchLinks();
+      await fetchLinks();
     } catch (e) {
       console.error('Error: ', e);
     }
@@ -54,7 +46,7 @@ export default function ModalBoardLinks({ id }: IProps) {
   return (
     <S.Container>
       {links !== undefined ? links.map((link) => (
-        <S.LinkItem>
+        <S.LinkItem key={link.id}>
           <S.TextContainer>
             <C.Text
               $weight={400}

@@ -15,6 +15,7 @@ export default function TabButtons({
     <S.ButtonWrapper>
       {name.map((title, index) => (
         <S.ButtonBold
+          key={index}
           onClick={() => setActiveTab(index)}
           className={activeTab === index ? 'active' : ''}
         >

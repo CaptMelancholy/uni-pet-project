@@ -17,6 +17,7 @@ interface IInputData {
 interface IProps {
   id: number;
   title: string;
+  fetchLinks: () => Promise<void>;
 }
 
 export interface ILinkData {
@@ -26,12 +27,12 @@ export interface ILinkData {
   timeLimit: Date;
 }
 
-export default function ModalBoardCreateLinks({ id, title }: IProps) {
-  const {
-    register,
-    handleSubmit,
-    watch
-  } = useForm<IInputData>();
+export default function ModalBoardCreateLinks({
+  id,
+  title,
+  fetchLinks,
+}: IProps) {
+  const { register, handleSubmit, watch } = useForm<IInputData>();
 
   const userLimitValue = watch('userLimit');
   const timeLimitDaysValue = watch('timeLimitDays');
@@ -42,7 +43,7 @@ export default function ModalBoardCreateLinks({ id, title }: IProps) {
       const combined = new Date(
         date.getFullYear(),
         date.getMonth(),
-        date.getDate()
+        date.getDate(),
       );
 
       return combined;
@@ -59,9 +60,14 @@ export default function ModalBoardCreateLinks({ id, title }: IProps) {
       return resultDate;
     }
 
-    const createLink = async (link : ILinkData) => {
-      await API.post('links', link);
-    }
+    const createLink = async (link: ILinkData) => {
+      try {
+        await API.post('links', link);
+        await fetchLinks();
+      } catch (e) {
+        console.error(e);
+      }
+    };
     const users =
       data.userLimit !== '-1' ? Number(data.userLimit) : data.userLimitCustom;
     const date =

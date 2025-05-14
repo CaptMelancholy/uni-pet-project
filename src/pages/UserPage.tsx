@@ -10,13 +10,9 @@ export default function UserPage() {
   const { username } = useParams();
   const navigate = useNavigate();
   useEffect(() => {
-    API.get(`check/${username?.toString()}`)
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((error) => {
+    API.get(`profile/users/check/${username?.toString()}`).catch((error) => {
         if (axios.isAxiosError(error)) {
-          console.log(error.status);
+          console.error(error.status);
           const path = generatePath(DefaultRoutes.error, {
             code: error.response?.status,
           });

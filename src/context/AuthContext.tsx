@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }: IProps) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await API.get('check-auth');
+        const response = await API.get('auth/check');
         setAuthName(response.data.username);
         setIsAuth(true);
       } catch (error) {

@@ -32,7 +32,7 @@ export default function SingIn() {
   const handleLogin = (data: IUserInput) => {
     const signInUser = async (user: IUserSignIn) => {
       try {
-        const { data } = await API.post('login', user);
+        const { data } = await API.post('auth/login', user);
         navigate(DefaultRoutes.boards);
         setIsAuth(true);
         setAuthName(data.username);
@@ -124,7 +124,7 @@ export default function SingIn() {
           <C.Error>{errors.root.serverError.message}</C.Error>
         )}
         {isSuccess && (
-          <C.SuccessLabel>You changed password successfully</C.SuccessLabel>
+          <C.SuccessLabel>You changed signed in</C.SuccessLabel>
         )}
       </C.InputFormContainer>
     </S.Form>

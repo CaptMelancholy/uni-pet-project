@@ -1,6 +1,6 @@
 import * as S from './Board.styles';
 import Category from '../Category/Category';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import AddCategoryForm from '../AddCategoryForm/AddCategoryForm';
 import { DragDropContext, DragUpdate } from 'react-beautiful-dnd';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,6 +14,7 @@ import TabButtons from '../Tabs/TabButtons/TabButtons';
 import TabContent from '../Tabs/TabContent/TabContent';
 import CalendarComponent from '../Calendar/CalendarComponent';
 import { ICategory } from '../Category/Category.types';
+import MarksComponent from '../MarksComponent/MarksComponent';
 
 interface IProps {
   board: IBoard;
@@ -25,6 +26,8 @@ export default function Board({ board }: IProps) {
   const dispatch = useDispatch<AppDispatch>();
   const [activeTab, setActiveTab] = useState<number>(0);
   const [cardEvents, setCardEvents] = useState<Array<ICard>>([]);
+
+
   const handleAddClick = () => {
     setShowAddCategory(true);
   };
@@ -123,7 +126,7 @@ export default function Board({ board }: IProps) {
   return (
     <>
       <TabButtons
-        name={['BOARD', 'CALENDAR']}
+        name={['BOARD', 'CALENDAR', 'MARKS']}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
       />
@@ -153,6 +156,7 @@ export default function Board({ board }: IProps) {
           </S.BoardContainer>
         </DragDropContext>
         <CalendarComponent cards={cardEvents} />
+        <MarksComponent boardId={board.id} />
       </TabContent>
     </>
   );

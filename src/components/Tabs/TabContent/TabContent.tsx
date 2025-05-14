@@ -13,7 +13,7 @@ export default function TabContent({
   return (
     <S.ContentWrapper>
       {children.map((el, index) => (
-        <S.Content className={activeTab === index ? 'active' : ''}>
+        <S.Content key={index} className={activeTab === index ? 'active' : ''}>
           {el}
         </S.Content>
       ))}

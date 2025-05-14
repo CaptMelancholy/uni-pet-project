@@ -10,7 +10,7 @@ export default function AccountAvatar() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { authName } = useAuth();
   useEffect(() => {
-    API.get(`avatar/me`, { responseType: 'blob' })
+    API.get(`profile/personal/avatar`, { responseType: 'blob' })
       .then((res) => {
         const url = URL.createObjectURL(res.data);
         setAvatarUrl(url);
@@ -25,9 +25,8 @@ export default function AccountAvatar() {
 
     const formData = new FormData();
     formData.append('avatar', file);
-    console.log(formData);
     try {
-      const res = await APIImage.post('upload-avatar', formData);
+      const res = await APIImage.post('profile/avatar/upload', formData);
 
       const newUrl = `${apiUrl}${res.data.avatarUrl}`;
       setAvatarUrl(newUrl);

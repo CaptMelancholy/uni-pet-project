@@ -18,7 +18,7 @@ interface IDesc {
 export default function UserProfile({ username }: IProps) {
   const [profileData, setProfileData] = useState<IDesc | undefined>(undefined);
   useEffect(() => {
-    API.get(`profile/${username}`).then((res) => {
+    API.get(`profile/users/profile/${username}`).then((res) => {
       const data: IDesc = res.data;
       setProfileData(data);
     });
@@ -36,7 +36,7 @@ export default function UserProfile({ username }: IProps) {
           $size={24}
           $type={EInputFieldTypes.onBright}
         >
-          {profileData?.about ? profileData.about : 'User doesnt set any info'}
+          {profileData?.about ? profileData.about : 'User doesn\'t set any info'}
         </C.TextField>
       </S.TopBlock>
       <S.MiddleBlocks $gridColumn='1/2'>
@@ -50,7 +50,7 @@ export default function UserProfile({ username }: IProps) {
           $size={24}
           $type={EInputFieldTypes.onBright}
         >
-          {profileData?.location ? profileData.location : 'User doesnt set any info'}
+          {profileData?.location ? profileData.location : 'User doesn\'t set any info'}
         </C.TextField>
       </S.MiddleBlocks>
       <S.MiddleBlocks $gridColumn='2/3'>
@@ -64,7 +64,7 @@ export default function UserProfile({ username }: IProps) {
           $size={24}
           $type={EInputFieldTypes.onBright}
         >
-          {profileData?.realname ? profileData.realname : 'User doesnt set any info'}
+          {profileData?.realname ? profileData.realname : 'User doesn\'t set any info'}
         </C.TextField>
       </S.MiddleBlocks>
       <S.MiddleBlocks $gridColumn='3/4'>
@@ -78,7 +78,7 @@ export default function UserProfile({ username }: IProps) {
           $size={24}
           $type={EInputFieldTypes.onBright}
         >
-          {profileData?.location ? profileData.location : 'User doesnt set any info'}
+          {profileData?.location ? profileData.location : 'User doesn\'t set any info'}
         </C.TextField>
       </S.MiddleBlocks>
     </S.ProfileUserContainer>

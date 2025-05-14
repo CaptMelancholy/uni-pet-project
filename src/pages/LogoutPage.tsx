@@ -12,7 +12,7 @@ export default function LogoutPage() {
   useEffect(() => {
     const handleLogout = async () => {
       try {
-        await API.post('logout');
+        await API.post('auth/logout');
         setIsAuth(false);
         setAuthName(null);
       } catch (error) {

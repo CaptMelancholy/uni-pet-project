@@ -11,7 +11,9 @@ import { AppDispatch } from '../../../store';
 import { updateBoard } from '../../../store/thunks/boards.thunk';
 import { useUpdate } from '../../../context/UpdateHooks';
 import ModalBoardCreateLinks from './ModalBoardCreateLinks/ModalBoardCreateLinks';
-import ModalBoardLinks from './ModalBoardLinks/ModalBoardLinks';
+import ModalBoardLinks, { ILink } from './ModalBoardLinks/ModalBoardLinks';
+import { useCallback, useState } from 'react';
+import API from '../../../API/api';
 
 interface IProps {
   showModal: boolean;
@@ -34,6 +36,15 @@ export default function ModalBoard({ showModal, setShowModal, board }: IProps) {
   const theme = useTheme();
   const { setScreen } = useScreenBlock();
   const { setUpdate } = useUpdate();
+  const [links, setLinks] = useState<Array<ILink>>([]);
+  const fetchLinks = useCallback(async () => {
+    try {
+      const { data } = await API.get(`links/${board.id}`);
+      setLinks(data.links);
+    } catch (error) {
+      console.error('Ошибка при получении ссылок:', error);
+    }
+  }, [board.id]);
   const submitOptions = {
     title: {
       required: 'Title is required',
@@ -118,7 +129,7 @@ export default function ModalBoard({ showModal, setShowModal, board }: IProps) {
           >
             Invite Link
           </C.Text>
-          <ModalBoardLinks id={board.id} />
+          <ModalBoardLinks links={links} fetchLinks={fetchLinks} />
         </S.ModalContentContainer>
         <C.Button
           $type={EButtonType.add}
@@ -128,8 +139,17 @@ export default function ModalBoard({ showModal, setShowModal, board }: IProps) {
         </C.Button>
       </S.ModalForm>
       <S.ModalLinkContainer>
-        <S.FieldText $size={24} $weight={600}>LINKS</S.FieldText>
-        <ModalBoardCreateLinks id={board.id} title={board.title} />
+        <S.FieldText
+          $size={24}
+          $weight={600}
+        >
+          LINKS
+        </S.FieldText>
+        <ModalBoardCreateLinks
+          id={board.id}
+          title={board.title}
+          fetchLinks={fetchLinks}
+        />
       </S.ModalLinkContainer>
     </Modal>
   );

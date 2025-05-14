@@ -70,7 +70,7 @@ export default function AccountPassword() {
   const handleChangePassword = (data: IPasswordInput) => {
     const changePassword = async () => {
       try {
-        await API.post('change-password', data);
+        await API.put('profile/users/password', data);
         setIsSuccess(true);
       } catch (error) {
         setIsSuccess(false);

@@ -30,7 +30,7 @@ export default function SingUp() {
   const handleRegistration = (data: IUserInput) => {
     const registerUser = async (user: IUserSignUp) => {
       try {
-        await API.post('register', user);
+        await API.post('auth/register', user);
         setIsSuccess(true);
       } catch (error) {
         setIsSuccess(false);
@@ -186,7 +186,7 @@ export default function SingUp() {
           <C.Error>{errors.root.serverError.message}</C.Error>
         )}
         {isSuccess && (
-          <C.SuccessLabel>You changed password successfully</C.SuccessLabel>
+          <C.SuccessLabel>You successfully joined us</C.SuccessLabel>
         )}
       </C.InputFormContainer>
     </S.Form>

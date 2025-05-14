@@ -15,7 +15,7 @@ export default function Header() {
   const { isAuth, authName } = useAuth();
   const [avatarUrl, setAvatarUrl] = useState<string>(DEFAULT_AVATAR);
   useEffect(() => {
-    API.get(`avatar/me`, { responseType: 'blob' })
+    API.get(`profile/personal/avatar`, { responseType: 'blob' })
       .then((res) => {
         const url = URL.createObjectURL(res.data);
         setAvatarUrl(url);

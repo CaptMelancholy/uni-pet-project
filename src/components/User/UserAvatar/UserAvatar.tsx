@@ -11,7 +11,7 @@ const DEFAULT_AVATAR = '/default.jpg';
 export default function UserAvatar({ username }: IProps) {
   const [avatarUrl, setAvatarUrl] = useState<string>(DEFAULT_AVATAR);
   useEffect(() => {
-    API.get(`get-avatar/${username}`, { responseType: 'blob' })
+    API.get(`/profile/users/avatar/${username}`, { responseType: 'blob' })
       .then((res) => {
         const url = URL.createObjectURL(res.data);
         setAvatarUrl(url);

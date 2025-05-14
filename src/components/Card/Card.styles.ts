@@ -33,7 +33,7 @@ export const CardBadgeContainer = styled.div`
 `;
 
 export const CardBadge = styled.div<{ $type: EPriority }>`
-  background-color: ${({theme, $type}) => {
+  background-color: ${({ theme, $type }) => {
     switch ($type) {
       case EPriority.critical:
         return theme.colors.red;
@@ -45,7 +45,21 @@ export const CardBadge = styled.div<{ $type: EPriority }>`
         return theme.colors.green;
     }
   }};
-  color: ${({theme}) => theme.colors.text_on_bright};
+  color: ${({ theme }) => theme.colors.text_on_dark};
+  display: flex;
+  align-items: center;
+  flex-basis: 25%;
+  text-align: center;
+  justify-content: center;
+  border-radius: 5px;
+`;
+
+export const CustomCardBadge = styled.div<{
+  $bgColor: string;
+  $titleColor: string;
+}>`
+  background-color: ${({ $bgColor }) => $bgColor};
+  color: ${({ $titleColor }) => $titleColor};
   display: flex;
   align-items: center;
   flex-basis: 25%;
@@ -58,7 +72,6 @@ export const CardBadgeText = styled.p`
   font-weight: 600;
   font-size: 8px;
   text-transform: uppercase;
-  color: black;
 `;
 
 export const CardTitle = styled.p`
@@ -77,6 +90,13 @@ export const CardFooter = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  gap: 10px;
+`;
+
+export const CardInfoUsersOrSubtasks = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 5px;
 `;
 
 export const DateTimeContainer = styled.div<{ $status: EStatuses }>`

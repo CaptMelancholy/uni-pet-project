@@ -11,6 +11,5 @@ export enum EColors {
 export function getRandomColor(): EColors {
   const colors = Object.values(EColors);
   const randomIndex = Math.floor(Math.random() * colors.length);
-  console.log(colors[randomIndex])
   return colors[randomIndex] as EColors;
 }

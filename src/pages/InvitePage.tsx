@@ -11,11 +11,11 @@ export default function InvitePage() {
   useEffect(() => {
     const handleInvite = async () => {
       try {
-        await API.post(`invite/${hash}`);
+        await API.post(`link/join/${hash}`);
         navigate(DefaultRoutes.default);
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          console.log(error.status);
+          console.error(error.status);
           const path = generatePath(DefaultRoutes.error, {
             code: error.response?.status,
           });
