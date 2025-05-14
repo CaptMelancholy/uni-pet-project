@@ -1,19 +1,21 @@
-import { ReactNode } from 'react'
-import * as S from './Template.styles'
-import * as C from '../../styles/components'
+import { ReactNode } from 'react';
+import * as S from './Template.styles';
+import * as C from '../../styles/components';
 
 interface IProps {
-    title: string;
-    children: ReactNode;
+  title?: string;
+  children: ReactNode;
 }
 
-export default function Template({ title, children } : IProps) {
+export default function Template({ title, children }: IProps) {
   return (
     <S.TemplateContainer>
+      {title && (
         <S.TextContainer>
-            <C.PageTitle>{ title }</C.PageTitle>
+          <C.PageTitle>{title}</C.PageTitle>
         </S.TextContainer>
-        { children }
+      )}
+      {children}
     </S.TemplateContainer>
-  )
+  );
 }

@@ -1,5 +1,5 @@
 enum ESliceNames {
-    CATEGORIES_SLICE_NAME = 'categories',
+  BOARDS_SLICE_NAME = 'boards',
 }
 
-export default ESliceNames
+export default ESliceNames;

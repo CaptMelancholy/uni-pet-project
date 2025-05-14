@@ -1,12 +1,20 @@
 export interface ICard {
   id: number;
-  parent_id: number;
-  badges: Array<IBadge>;
+  categoryId: number;
+  boardId: number;
+  priority?: EPriority;
   title: string;
   desc?: string;
   deadlineInfo?: IDeadlineDateTime;
+  order: number;
 }
 
+export enum EPriority {
+  critical = 'CRITICAL',
+  high = 'HIGH',
+  medium = 'MEDIUM',
+  low = 'LOW',
+}
 export interface IBadge {
   color: string;
   text: string;
@@ -22,4 +30,17 @@ export enum EStatuses {
   Deadline = 'deadline',
   InProgress = 'in_progress',
   Completed = 'completed',
+}
+
+export interface ICardDTO {
+  id: number;
+  categoryId: number;
+  boardId: number;
+  priority?: EPriority;
+  title: string;
+  desc?: string;
+  deadline_date?: string;
+  status?: EStatuses;
+  deadline_time?: string;
+  order: number;
 }

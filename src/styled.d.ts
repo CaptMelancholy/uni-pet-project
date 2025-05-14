@@ -5,6 +5,9 @@ declare module 'styled-components' {
     colors: {
       primary: string;
       secondary: string;
+      categories: string;
+      cards: string;
+      disabled: string;
       red: string;
       orange: string;
       green: string;
@@ -14,6 +17,8 @@ declare module 'styled-components' {
       blue: string;
       grey: string;
       text: string;
+      text_on_bright: string;
+      text_on_dark: string;
       deadline_background: string;
       red_text_deadline: string;
       in_progress_background: string;

@@ -30,6 +30,7 @@ export default createGlobalStyle`
         --primary-family: "Poppins", sans-serif;
     }
 
+
     #root {
         display: flex;
         width: 100vw;
@@ -39,6 +40,8 @@ export default createGlobalStyle`
 
     body {
         margin: 0;
+        background-color: ${({ theme }) => theme.colors.secondary};
+        min-height: 100%;
     }
 
     a {
@@ -57,6 +60,8 @@ export default createGlobalStyle`
         padding: 0;
         width: auto;
         overflow: visible;
+        font-family: inherit;
+        cursor: pointer;
     }
 
     table {
