@@ -68,6 +68,7 @@ export default function AddMarkForm({ setShowAddMark, boardId, fetchAllMarks }: 
     };
     pushNewMark(newMark);
     setShowAddMark(false);
+    reset();
   };
 
   return (
